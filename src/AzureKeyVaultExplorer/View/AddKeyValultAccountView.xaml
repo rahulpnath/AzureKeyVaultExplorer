@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="AzureKeyVaultExplorer.View.AddKeyValultAccountView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" Background="White"
+              d:DesignWidth="400">
+    <Grid >
+        <Grid.Resources>
+            <Style TargetType="TextBlock" x:Key="HeaderText">
+                <Setter Property="Margin" Value="0,10,0,0" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="FontSize" Value="14" />
+            </Style>
+        </Grid.Resources>
+        <Border  BorderBrush="Gray" BorderThickness="3" CornerRadius="8" Width="400" RenderTransformOrigin="0.5,0.5">
+
+            <Border.Style>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <TransformGroup>
+                                <TranslateTransform X="0" Y="0" />
+                                <ScaleTransform ScaleX="1" ScaleY="1" />
+                            </TransformGroup>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Border.Style>
+
+            <Border.Effect>
+                <DropShadowEffect />
+            </Border.Effect>
+
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0.5, 0" EndPoint="0.5, 1">
+                    <GradientStop Color="White" Offset="0" />
+                    <GradientStop Color="WhiteSmoke" Offset="0.7" />
+                    <GradientStop Color="LightGray" Offset="1" />
+                </LinearGradientBrush>
+            </Border.Background>
+            
+            <StackPanel Margin="10">
+                <TextBlock FontSize="18" TextAlignment="Center" Text="Add Azure Key Vault Account" />
+                <TextBlock  Text="Azure Key Vault Url:" Style="{StaticResource HeaderText}" />
+                <TextBox Text="{Binding KeyVaultUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock  Text="AD Application Id:" Style="{StaticResource HeaderText}"  />
+                <TextBox Text="{Binding ADApplicationId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Text="AD Application Secret:" Style="{StaticResource HeaderText}"  />
+                <TextBox Text="{Binding ADApplicationSecret, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                    <Button Content="Add" Command="{Binding AddKeyVaultAccountCommand}" />
+                    <Button Margin="5,0,0,0" Content="Cancel" Command="{Binding CancelAddKeyVaultAccountCommand}"  />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>
