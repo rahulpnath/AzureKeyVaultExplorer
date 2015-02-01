@@ -80,10 +80,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Interface\IKeyVaultConfigurationRepository.cs" />
+    <Compile Include="Model\Key.cs" />
     <Compile Include="Model\KeyVaultConfiguration.cs" />
+    <Compile Include="Model\KeyVaultConfigurationChangedEventArgs.cs" />
     <Compile Include="Model\KeyVaultConfigurationRepository.cs" />
     <Compile Include="ViewModel\AddKeyVaultAccountViewModel.cs" />
     <Compile Include="ViewModel\AzureKeyVaultExplorerViewModel.cs" />
+    <Compile Include="ViewModel\KeyVaultAccountViewModel.cs" />
     <Compile Include="ViewModel\ManageKeyVaultAccountsViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
@@ -93,8 +96,17 @@
     <Compile Include="View\AzureKeyVaultExplorerView.xaml.cs">
       <DependentUpon>AzureKeyVaultExplorerView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\KeyVaultAccountView.xaml.cs">
+      <DependentUpon>KeyVaultAccountView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ManageKeyVaultAccountsView.xaml.cs">
       <DependentUpon>ManageKeyVaultAccountsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ManageLocalKeysView.xaml.cs">
+      <DependentUpon>ManageLocalKeysView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ManageVaultKeysView.xaml.cs">
+      <DependentUpon>ManageVaultKeysView.xaml</DependentUpon>
     </Compile>
     <Page Include="AzureKeyVaultExplorerWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -112,7 +124,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\KeyVaultAccountView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ManageKeyVaultAccountsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ManageLocalKeysView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ManageVaultKeysView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

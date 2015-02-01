@@ -16,10 +16,16 @@
 
         private AddKeyVaultAccountViewModel addKeyVaultAccountViewModel;
 
+        private KeyVaultConfiguration selectedKeyVaultConfiguration;
+
         public ManageKeyVaultAccountsViewModel(IKeyVaultConfigurationRepository keyVaultConfigurationRepository)
         {
             this.keyVaultConfigurationRepository = keyVaultConfigurationRepository;
         }
+
+        public delegate void ConfigurationChangedEventHadler(object sender, KeyVaultConfigurationChangedEventArgs e);
+
+        public event ConfigurationChangedEventHadler ConfigurationChanged;
 
         public AddKeyVaultAccountViewModel AddKeyVaultAccountViewModel
         {
@@ -39,7 +45,21 @@
         {
             get
             {
-                return new ObservableCollection<KeyVaultConfiguration>(keyVaultConfigurationRepository.All);
+                return new ObservableCollection<KeyVaultConfiguration>(this.keyVaultConfigurationRepository.All);
+            }
+        }
+
+        public KeyVaultConfiguration SelectedKeyVaultConfiguration
+        {
+            get
+            {
+                return this.selectedKeyVaultConfiguration;
+            }
+
+            set
+            {
+                this.selectedKeyVaultConfiguration = value;
+                this.RaiseConfigurationChangedEvent();
             }
         }
 
@@ -60,6 +80,14 @@
         {
             this.AddKeyVaultAccountViewModel = new AddKeyVaultAccountViewModel(this.keyVaultConfigurationRepository, new KeyVaultConfiguration());
             this.AddKeyVaultAccountViewModel.RequestClose += this.HandleAddKeyVaultAccountViewModelRequestClose;
+        }
+
+        private void RaiseConfigurationChangedEvent()
+        {
+            if (this.ConfigurationChanged != null)
+            {
+                this.ConfigurationChanged(this, new KeyVaultConfigurationChangedEventArgs(this.SelectedKeyVaultConfiguration));
+            }
         }
 
         private void HandleAddKeyVaultAccountViewModelRequestClose(object sender, EventArgs e)

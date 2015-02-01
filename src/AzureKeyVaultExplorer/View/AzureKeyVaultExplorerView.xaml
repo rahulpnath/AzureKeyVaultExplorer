@@ -11,6 +11,21 @@
         <viewmodel:AzureKeyVaultExplorerViewModel />
     </UserControl.DataContext>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
         <view:ManageKeyVaultAccountsView DataContext="{Binding ManageKeyVaultAccountsViewModel }" />
+        <view:KeyVaultAccountView Grid.Row="1" DataContext="{Binding KeyVaultAccountViewModel}" >
+            <view:KeyVaultAccountView.Style>
+                <Style TargetType="{x:Type view:KeyVaultAccountView}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path =.}" Value="{x:Null}" >
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </view:KeyVaultAccountView.Style>
+        </view:KeyVaultAccountView>
     </Grid>
 </UserControl>
