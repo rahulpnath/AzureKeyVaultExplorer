@@ -9,7 +9,7 @@
     {
         IEnumerable<KeyVaultConfiguration> All { get; }
 
-        KeyVaultConfiguration Get(string keyVaultUrl);
+        KeyVaultConfiguration Get(string vaultName);
 
         Task<bool> InsertOrUpdate(KeyVaultConfiguration keyVaultConfiguration);
 

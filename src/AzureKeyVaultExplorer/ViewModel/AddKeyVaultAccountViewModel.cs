@@ -1,6 +1,9 @@
 ﻿namespace AzureKeyVaultExplorer.ViewModel
 {
+    using System;
     using System.Text.RegularExpressions;
+    using System.Threading.Tasks;
+
     using AzureKeyVaultExplorer.Interface;
     using AzureKeyVaultExplorer.Model;
     using GalaSoft.MvvmLight;
@@ -18,6 +21,8 @@
 
         private string keyVaultUrl;
 
+        private string vaultName;
+
         private string adApplicationId;
 
         private string adApplicationSecret;
@@ -29,6 +34,8 @@
             this.AddKeyVaultAccountCommand = new RelayCommand(this.AddKeyVaultAccount, this.CanAddKeyVaultCommand);
             this.Init(keyVaultConfiguration);
         }
+
+        public event EventHandler RequestClose;
 
         public string KeyVaultUrl
         {
@@ -95,6 +102,7 @@
 
         private void CancelAddKeyVaultAccount()
         {
+            this.RaiseRequestClose();
         }
 
         private bool CanAddKeyVaultCommand()
@@ -104,29 +112,44 @@
                                   || string.IsNullOrWhiteSpace(this.ADApplicationSecret);
             var isValidVaultUrl = this.CheckIfVaultUrlMatchesFormat();
 
-            var vaultUrlAlreadyExists = this.keyVaultConfigurationRepository.Get(this.KeyVaultUrl) != null;
+            var vaultUrlAlreadyExists = this.keyVaultConfigurationRepository.Get(this.vaultName) != null;
 
             return !hasAnythingEmpty && !vaultUrlAlreadyExists && isValidVaultUrl;
         }
 
         private bool CheckIfVaultUrlMatchesFormat()
         {
-            return this.keyVaultUrl != null && this.vaultUrlMatcher.Match(this.KeyVaultUrl).Success;
+            if (this.keyVaultUrl == null)
+            {
+                return false;
+            }
+
+            var match = this.vaultUrlMatcher.Match(this.KeyVaultUrl);
+            if (match.Success)
+            {
+                this.vaultName = match.Groups["vaultname"].Value;
+            }
+
+            return match.Success;
         }
 
-        private void AddKeyVaultAccount()
+        // http://stackoverflow.com/questions/16848562/async-await-in-mvvm-without-void-methods
+        private async void AddKeyVaultAccount()
         {
             this.keyVaultConfiguration.AzureKeyVaultUrl = this.KeyVaultUrl;
-            this.keyVaultConfiguration.VaultName = this.GetVaultNameFromUrl();
+            this.keyVaultConfiguration.VaultName = this.vaultName;
             this.keyVaultConfiguration.ADApplicationSecret = this.ADApplicationSecret;
             this.keyVaultConfiguration.ADApplicationClientId = this.ADApplicationId;
-            this.keyVaultConfigurationRepository.InsertOrUpdate(this.keyVaultConfiguration);
+            await this.keyVaultConfigurationRepository.InsertOrUpdate(this.keyVaultConfiguration);
+            this.RaiseRequestClose();
         }
 
-        private string GetVaultNameFromUrl()
+        private void RaiseRequestClose()
         {
-            var match = this.vaultUrlMatcher.Match(this.KeyVaultUrl);
-            return match.Groups["vaultname"].Value;
+            if (this.RequestClose != null)
+            {
+                this.RequestClose(this, EventArgs.Empty);
+            }
         }
     }
 }

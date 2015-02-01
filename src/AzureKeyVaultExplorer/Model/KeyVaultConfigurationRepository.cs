@@ -38,9 +38,9 @@
             }
         }
 
-        public KeyVaultConfiguration Get(string keyVaultUrl)
+        public KeyVaultConfiguration Get(string keyVaultName)
         {
-            return this.All.FirstOrDefault(c => c.AzureKeyVaultUrl.Equals(keyVaultUrl));
+            return this.All.FirstOrDefault(c => c.VaultName.Equals(keyVaultName));
         }
 
         public async Task<bool> InsertOrUpdate(KeyVaultConfiguration keyVaultConfiguration)

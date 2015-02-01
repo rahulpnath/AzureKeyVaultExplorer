@@ -129,7 +129,7 @@
             var mockKeyVaultConfiguration = MockKeyVaultConfiguration;
             var keyVaultConfigurationRepository = new Mock<IKeyVaultConfigurationRepository>();
             keyVaultConfigurationRepository.Setup(
-                m => m.Get(mockKeyVaultConfiguration.AzureKeyVaultUrl)).Returns(mockKeyVaultConfiguration);
+                m => m.Get(mockKeyVaultConfiguration.VaultName)).Returns(mockKeyVaultConfiguration);
 
             var addKeyVaultAccountViewModel =
                 new AddKeyVaultAccountViewModel(

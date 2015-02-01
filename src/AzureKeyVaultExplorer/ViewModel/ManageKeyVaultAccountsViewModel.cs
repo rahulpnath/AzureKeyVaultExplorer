@@ -19,7 +19,6 @@
         public ManageKeyVaultAccountsViewModel(IKeyVaultConfigurationRepository keyVaultConfigurationRepository)
         {
             this.keyVaultConfigurationRepository = keyVaultConfigurationRepository;
-            this.KeyVaultConfigurations = new ObservableCollection<KeyVaultConfiguration>(keyVaultConfigurationRepository.All);
         }
 
         public AddKeyVaultAccountViewModel AddKeyVaultAccountViewModel
@@ -36,7 +35,13 @@
             }
         }
 
-        public ObservableCollection<KeyVaultConfiguration> KeyVaultConfigurations { get; set; }
+        public ObservableCollection<KeyVaultConfiguration> KeyVaultConfigurations
+        {
+            get
+            {
+                return new ObservableCollection<KeyVaultConfiguration>(keyVaultConfigurationRepository.All);
+            }
+        }
 
         public RelayCommand AddKeyVaultAccountCommand
         {
@@ -51,25 +56,17 @@
             return this.KeyVaultConfigurations.Any(c => string.Equals(keyVaultUrl, c.AzureKeyVaultUrl, StringComparison.CurrentCultureIgnoreCase));
         }
 
-        public void AddKeyVauleAccount(KeyVaultConfiguration keyVaultConfiguration)
-        {
-            this.KeyVaultConfigurations.Add(keyVaultConfiguration);
-            this.CloseAddKeyVaultAccountModal();
-        }
-
-        public void CancelAddKeyVaultAccount()
-        {
-            this.CloseAddKeyVaultAccountModal();
-        }
-
-        private void CloseAddKeyVaultAccountModal()
-        {
-            this.AddKeyVaultAccountViewModel = null;
-        }
-
         private void OpenAddKeyVaultAccount()
         {
             this.AddKeyVaultAccountViewModel = new AddKeyVaultAccountViewModel(this.keyVaultConfigurationRepository, new KeyVaultConfiguration());
+            this.AddKeyVaultAccountViewModel.RequestClose += this.HandleAddKeyVaultAccountViewModelRequestClose;
+        }
+
+        private void HandleAddKeyVaultAccountViewModelRequestClose(object sender, EventArgs e)
+        {
+            this.AddKeyVaultAccountViewModel.RequestClose -= this.HandleAddKeyVaultAccountViewModelRequestClose;
+            this.AddKeyVaultAccountViewModel = null;
+            this.RaisePropertyChanged(() => this.KeyVaultConfigurations);
         }
     }
 }
