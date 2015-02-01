@@ -4,6 +4,7 @@
     using System.Collections.ObjectModel;
     using System.Linq;
 
+    using AzureKeyVaultExplorer.Interface;
     using AzureKeyVaultExplorer.Model;
 
     using GalaSoft.MvvmLight;
@@ -11,11 +12,14 @@
 
     public class ManageKeyVaultAccountsViewModel : ViewModelBase
     {
+        private readonly IKeyVaultConfigurationRepository keyVaultConfigurationRepository;
+
         private AddKeyVaultAccountViewModel addKeyVaultAccountViewModel;
 
-        public ManageKeyVaultAccountsViewModel()
+        public ManageKeyVaultAccountsViewModel(IKeyVaultConfigurationRepository keyVaultConfigurationRepository)
         {
-            this.KeyVaultConfigurations = new ObservableCollection<KeyVaultConfiguration>();
+            this.keyVaultConfigurationRepository = keyVaultConfigurationRepository;
+            this.KeyVaultConfigurations = new ObservableCollection<KeyVaultConfiguration>(keyVaultConfigurationRepository.GetAll());
         }
 
         public AddKeyVaultAccountViewModel AddKeyVaultAccountViewModel
@@ -42,9 +46,9 @@
             }
         }
 
-        private void OpenAddKeyVaultAccount()
+        public bool CheckIfVaultUrlAlreadyExists(string keyVaultUrl)
         {
-            this.AddKeyVaultAccountViewModel = new AddKeyVaultAccountViewModel(this, new KeyVaultConfiguration());
+            return this.KeyVaultConfigurations.Any(c => string.Equals(keyVaultUrl, c.AzureKeyVaultUrl, StringComparison.CurrentCultureIgnoreCase));
         }
 
         public void AddKeyVauleAccount(KeyVaultConfiguration keyVaultConfiguration)
@@ -63,9 +67,9 @@
             this.AddKeyVaultAccountViewModel = null;
         }
 
-        public bool CheckIfVaultUrlAlreadyExists(string keyVaultUrl)
+        private void OpenAddKeyVaultAccount()
         {
-            return this.KeyVaultConfigurations.Any(c => string.Equals(keyVaultUrl, c.AzureKeyVaultUrl, StringComparison.CurrentCultureIgnoreCase));
+            this.AddKeyVaultAccountViewModel = new AddKeyVaultAccountViewModel(this.keyVaultConfigurationRepository, new KeyVaultConfiguration());
         }
     }
 }

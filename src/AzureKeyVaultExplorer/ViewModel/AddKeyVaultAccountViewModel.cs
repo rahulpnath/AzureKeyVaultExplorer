@@ -1,10 +1,12 @@
 ﻿namespace AzureKeyVaultExplorer.ViewModel
 {
     using System.Collections.ObjectModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.Text.RegularExpressions;
     using System.Windows.Input;
     using System.Windows.Media.TextFormatting;
 
+    using AzureKeyVaultExplorer.Interface;
     using AzureKeyVaultExplorer.Model;
 
     using GalaSoft.MvvmLight;
@@ -12,11 +14,13 @@
 
     public class AddKeyVaultAccountViewModel : ViewModelBase
     {
-        private readonly ManageKeyVaultAccountsViewModel _manageKeyVaultAccountsViewModel;
+        private const string KeyVaultUrlFormat = @"https://([www]?)(?<vaultname>.*).vault.azure.net(/)?";
 
-        private const string KeyVaultUrlFormat = @"https://.*.vault.azure.net/";
+        private readonly IKeyVaultConfigurationRepository keyVaultConfigurationRepository;
 
-        private KeyVaultConfiguration _keyVaultConfiguration;
+        private readonly Regex vaultUrlMatcher;
+
+        private KeyVaultConfiguration keyVaultConfiguration;
 
         private string keyVaultUrl;
 
@@ -24,54 +28,12 @@
 
         private string adApplicationSecret;
 
-        private Regex vaultUrlMatcher;
-
-        public AddKeyVaultAccountViewModel(ManageKeyVaultAccountsViewModel manageKeyVaultAccountsViewModel, KeyVaultConfiguration keyVaultConfiguration)
+        public AddKeyVaultAccountViewModel(IKeyVaultConfigurationRepository keyVaultConfigurationRepository, KeyVaultConfiguration keyVaultConfiguration)
         {
-            this._manageKeyVaultAccountsViewModel = manageKeyVaultAccountsViewModel;
+            this.keyVaultConfigurationRepository = keyVaultConfigurationRepository;
             this.vaultUrlMatcher = new Regex(KeyVaultUrlFormat, RegexOptions.Compiled);
             this.AddKeyVaultAccountCommand = new RelayCommand(this.AddKeyVaultAccount, this.CanAddKeyVaultCommand);
             this.Init(keyVaultConfiguration);
-        }
-
-        private void Init(KeyVaultConfiguration keyVaultConfiguration)
-        {
-            this._keyVaultConfiguration = keyVaultConfiguration;
-            this.KeyVaultUrl = keyVaultConfiguration.AzureKeyVaultUrl ?? string.Empty;
-            this.ADApplicationId = keyVaultConfiguration.ADApplicationClientId ?? string.Empty;
-            this.ADApplicationSecret = keyVaultConfiguration.ADApplicationSecret ?? string.Empty;
-        }
-
-        public RelayCommand AddKeyVaultAccountCommand { get; set; }
-
-        public RelayCommand CancelAddKeyVaultAccountCommand
-        {
-            get
-            {
-                return new RelayCommand(this.CancelAddKeyVaultAccount);
-            }
-        }
-
-        private void CancelAddKeyVaultAccount()
-        {
-            this._manageKeyVaultAccountsViewModel.CancelAddKeyVaultAccount();
-        }
-
-        private bool CanAddKeyVaultCommand()
-        {
-            var hasAnythingEmpty = string.IsNullOrWhiteSpace(this.KeyVaultUrl)
-                                  || string.IsNullOrWhiteSpace(this.ADApplicationId)
-                                  || string.IsNullOrWhiteSpace(this.ADApplicationSecret);
-            var isValidVaultUrl = this.CheckIfVaultUrlMatchesFormat();
-
-            var vaultUrlAlreadyExists = this._manageKeyVaultAccountsViewModel.CheckIfVaultUrlAlreadyExists(this.KeyVaultUrl);
-
-            return !hasAnythingEmpty && !vaultUrlAlreadyExists && isValidVaultUrl;
-        }
-
-        private bool CheckIfVaultUrlMatchesFormat()
-        {
-           return this.vaultUrlMatcher.Match(this.KeyVaultUrl).Success;
         }
 
         public string KeyVaultUrl
@@ -80,6 +42,7 @@
             {
                 return this.keyVaultUrl;
             }
+
             set
             {
                 this.keyVaultUrl = value;
@@ -94,6 +57,7 @@
             {
                 return this.adApplicationId;
             }
+
             set
             {
                 this.adApplicationId = value;
@@ -108,21 +72,67 @@
             {
                 return this.adApplicationSecret;
             }
+
             set
             {
                 this.adApplicationSecret = value;
                 this.RaisePropertyChanged(() => this.ADApplicationSecret);
                 this.AddKeyVaultAccountCommand.RaiseCanExecuteChanged();
             }
+        }
 
+        public RelayCommand AddKeyVaultAccountCommand { get; set; }
+
+        public RelayCommand CancelAddKeyVaultAccountCommand
+        {
+            get
+            {
+                return new RelayCommand(this.CancelAddKeyVaultAccount);
+            }
+        }
+        
+        private void Init(KeyVaultConfiguration keyVaultConfiguration)
+        {
+            this.keyVaultConfiguration = keyVaultConfiguration;
+            this.KeyVaultUrl = keyVaultConfiguration.AzureKeyVaultUrl;
+            this.ADApplicationId = keyVaultConfiguration.ADApplicationClientId;
+            this.ADApplicationSecret = keyVaultConfiguration.ADApplicationSecret;
+        }
+
+        private void CancelAddKeyVaultAccount()
+        {
+        }
+
+        private bool CanAddKeyVaultCommand()
+        {
+            var hasAnythingEmpty = string.IsNullOrWhiteSpace(this.KeyVaultUrl)
+                                  || string.IsNullOrWhiteSpace(this.ADApplicationId)
+                                  || string.IsNullOrWhiteSpace(this.ADApplicationSecret);
+            var isValidVaultUrl = this.CheckIfVaultUrlMatchesFormat();
+
+            var vaultUrlAlreadyExists = this.keyVaultConfigurationRepository.Get(this.KeyVaultUrl) != null;
+
+            return !hasAnythingEmpty && !vaultUrlAlreadyExists && isValidVaultUrl;
+        }
+
+        private bool CheckIfVaultUrlMatchesFormat()
+        {
+           return this.keyVaultUrl != null && this.vaultUrlMatcher.Match(this.KeyVaultUrl).Success;
         }
 
         private void AddKeyVaultAccount()
         {
-            this._keyVaultConfiguration.AzureKeyVaultUrl = this.KeyVaultUrl;
-            this._keyVaultConfiguration.ADApplicationSecret = this.ADApplicationSecret;
-            this._keyVaultConfiguration.ADApplicationClientId = this.ADApplicationId;
-            this._manageKeyVaultAccountsViewModel.AddKeyVauleAccount(this._keyVaultConfiguration);
+            this.keyVaultConfiguration.AzureKeyVaultUrl = this.KeyVaultUrl;
+            this.keyVaultConfiguration.VaultName = this.GetVaultNameFromUrl();
+            this.keyVaultConfiguration.ADApplicationSecret = this.ADApplicationSecret;
+            this.keyVaultConfiguration.ADApplicationClientId = this.ADApplicationId;
+            this.keyVaultConfigurationRepository.Insert(this.keyVaultConfiguration);
+        }
+
+        private string GetVaultNameFromUrl()
+        {
+            var match = this.vaultUrlMatcher.Match(this.KeyVaultUrl);
+            return match.Groups["vaultname"].Value;
         }
     }
 }

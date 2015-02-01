@@ -2,6 +2,8 @@
 {
     public class KeyVaultConfiguration
     {
+        public string VaultName { get; set; }
+
         public string AzureKeyVaultUrl { get; set; }
 
         public string ADApplicationClientId { get; set; }

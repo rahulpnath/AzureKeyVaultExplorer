@@ -1,14 +1,16 @@
 ﻿namespace AzureKeyVaultExplorer.ViewModel
 {
+    using AzureKeyVaultExplorer.Model;
+
     using GalaSoft.MvvmLight;
 
     public class AzureKeyVaultExplorerViewModel : ViewModelBase
     {
-        public ManageKeyVaultAccountsViewModel ManageKeyVaultAccountsViewModel { get; set; }
-
         public AzureKeyVaultExplorerViewModel()
         {
-            this.ManageKeyVaultAccountsViewModel = new ManageKeyVaultAccountsViewModel();
+            this.ManageKeyVaultAccountsViewModel = new ManageKeyVaultAccountsViewModel(new KeyVaultConfigurationRepository());
         }
+
+        public ManageKeyVaultAccountsViewModel ManageKeyVaultAccountsViewModel { get; set; }
     }
 }

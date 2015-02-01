@@ -75,7 +75,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Interface\IKeyVaultConfigurationRepository.cs" />
     <Compile Include="Model\KeyVaultConfiguration.cs" />
+    <Compile Include="Model\KeyVaultConfigurationRepository.cs" />
     <Compile Include="ViewModel\AddKeyVaultAccountViewModel.cs" />
     <Compile Include="ViewModel\AzureKeyVaultExplorerViewModel.cs" />
     <Compile Include="ViewModel\ManageKeyVaultAccountsViewModel.cs" />
