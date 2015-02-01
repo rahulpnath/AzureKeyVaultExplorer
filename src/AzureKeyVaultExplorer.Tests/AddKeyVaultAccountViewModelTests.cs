@@ -1,5 +1,7 @@
 ﻿namespace AzureKeyVaultExplorer.Tests
 {
+    using System.Threading.Tasks;
+
     using AzureKeyVaultExplorer.Interface;
     using AzureKeyVaultExplorer.Model;
     using AzureKeyVaultExplorer.ViewModel;
@@ -33,15 +35,15 @@
         public void CreateInstanceTest()
         {
             var mockKeyVaultConfiguration = MockKeyVaultConfiguration;
-            
+
             var addKeyVaultAccountViewModel =
                 new AddKeyVaultAccountViewModel(
                     new Mock<IKeyVaultConfigurationRepository>().Object,
                     mockKeyVaultConfiguration);
 
-           Assert.AreEqual(addKeyVaultAccountViewModel.ADApplicationId, mockKeyVaultConfiguration.ADApplicationClientId);
-           Assert.AreEqual(addKeyVaultAccountViewModel.KeyVaultUrl, mockKeyVaultConfiguration.AzureKeyVaultUrl);
-           Assert.AreEqual(addKeyVaultAccountViewModel.ADApplicationSecret, mockKeyVaultConfiguration.ADApplicationSecret);
+            Assert.AreEqual(addKeyVaultAccountViewModel.ADApplicationId, mockKeyVaultConfiguration.ADApplicationClientId);
+            Assert.AreEqual(addKeyVaultAccountViewModel.KeyVaultUrl, mockKeyVaultConfiguration.AzureKeyVaultUrl);
+            Assert.AreEqual(addKeyVaultAccountViewModel.ADApplicationSecret, mockKeyVaultConfiguration.ADApplicationSecret);
         }
 
         [TestMethod]
@@ -76,7 +78,7 @@
 
             Assert.IsFalse(canExecute);
 
-           addKeyVaultAccountViewModel.KeyVaultUrl = @"https://.test.vault.azure.net/";
+            addKeyVaultAccountViewModel.KeyVaultUrl = @"https://.test.vault.azure.net/";
 
             canExecute = addKeyVaultAccountViewModel.AddKeyVaultAccountCommand.CanExecute(null);
 
@@ -143,7 +145,7 @@
             var mockKeyVaultConfiguration = MockKeyVaultConfiguration;
             var keyVaultConfigurationRepository = new Mock<IKeyVaultConfigurationRepository>();
             keyVaultConfigurationRepository.Setup(
-                a => a.Insert(mockKeyVaultConfiguration)).Returns(true);
+                a => a.InsertOrUpdate(mockKeyVaultConfiguration)).Returns(Task.FromResult(true));
 
             var addKeyVaultAccountViewModel =
                 new AddKeyVaultAccountViewModel(
@@ -151,8 +153,8 @@
                     mockKeyVaultConfiguration);
 
             addKeyVaultAccountViewModel.AddKeyVaultAccountCommand.Execute(null);
-            
-            keyVaultConfigurationRepository.Verify(a => a.Insert(mockKeyVaultConfiguration), Times.Once);
+
+            keyVaultConfigurationRepository.Verify(a => a.InsertOrUpdate(mockKeyVaultConfiguration), Times.Once);
         }
     }
 }

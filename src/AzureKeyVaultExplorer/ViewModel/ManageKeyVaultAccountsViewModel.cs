@@ -19,7 +19,7 @@
         public ManageKeyVaultAccountsViewModel(IKeyVaultConfigurationRepository keyVaultConfigurationRepository)
         {
             this.keyVaultConfigurationRepository = keyVaultConfigurationRepository;
-            this.KeyVaultConfigurations = new ObservableCollection<KeyVaultConfiguration>(keyVaultConfigurationRepository.GetAll());
+            this.KeyVaultConfigurations = new ObservableCollection<KeyVaultConfiguration>(keyVaultConfigurationRepository.All);
         }
 
         public AddKeyVaultAccountViewModel AddKeyVaultAccountViewModel

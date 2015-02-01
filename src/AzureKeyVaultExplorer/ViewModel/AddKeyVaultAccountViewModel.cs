@@ -1,14 +1,8 @@
 ﻿namespace AzureKeyVaultExplorer.ViewModel
 {
-    using System.Collections.ObjectModel;
-    using System.Diagnostics.CodeAnalysis;
     using System.Text.RegularExpressions;
-    using System.Windows.Input;
-    using System.Windows.Media.TextFormatting;
-
     using AzureKeyVaultExplorer.Interface;
     using AzureKeyVaultExplorer.Model;
-
     using GalaSoft.MvvmLight;
     using GalaSoft.MvvmLight.Command;
 
@@ -90,7 +84,7 @@
                 return new RelayCommand(this.CancelAddKeyVaultAccount);
             }
         }
-        
+
         private void Init(KeyVaultConfiguration keyVaultConfiguration)
         {
             this.keyVaultConfiguration = keyVaultConfiguration;
@@ -117,7 +111,7 @@
 
         private bool CheckIfVaultUrlMatchesFormat()
         {
-           return this.keyVaultUrl != null && this.vaultUrlMatcher.Match(this.KeyVaultUrl).Success;
+            return this.keyVaultUrl != null && this.vaultUrlMatcher.Match(this.KeyVaultUrl).Success;
         }
 
         private void AddKeyVaultAccount()
@@ -126,7 +120,7 @@
             this.keyVaultConfiguration.VaultName = this.GetVaultNameFromUrl();
             this.keyVaultConfiguration.ADApplicationSecret = this.ADApplicationSecret;
             this.keyVaultConfiguration.ADApplicationClientId = this.ADApplicationId;
-            this.keyVaultConfigurationRepository.Insert(this.keyVaultConfiguration);
+            this.keyVaultConfigurationRepository.InsertOrUpdate(this.keyVaultConfiguration);
         }
 
         private string GetVaultNameFromUrl()
