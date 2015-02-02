@@ -50,7 +50,7 @@
             var writeToFile = JsonConvert.SerializeObject(key);
             var filePath = Path.Combine(
                 this.keyPath,
-                string.Format(KeyFileFormat, key.KeyBundle.Key.Kid));
+                string.Format(KeyFileFormat, key.Name));
 
             using (var file = File.Create(filePath))
             {
@@ -75,7 +75,7 @@
 
         private void GetAllKeysFromStorage()
         {
-            var pattern = string.Format(this.keyPath, "*");
+            var pattern = string.Format(KeyFileFormat, "*");
             this.allKeys.Clear();
             var allFiles = Directory.GetFiles(this.keyPath, pattern, SearchOption.AllDirectories);
             foreach (var file in allFiles)

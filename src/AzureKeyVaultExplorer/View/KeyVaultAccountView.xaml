@@ -20,11 +20,22 @@
                   IsReadOnly="True" 
                   Text="Select Key"
                   MinWidth="300"
+                  Name="AllKeys"
                   VerticalAlignment="Top"
                   HorizontalAlignment="Left"
                   ItemsSource="{Binding AllKeys}" 
                   SelectedItem="{Binding SelectedKey}" />
-        <view:ManageVaultKeysView IsEnabled="False" Grid.Row="1" Grid.Column="0" SelectedKey="{Binding SelectedKey}" />
-        <view:ManageLocalKeysView SelectedKey="{Binding SelectedKey}" Grid.Row="2" Grid.Column="0" />
+        
+        <view:ManageVaultKeysView 
+            IsEnabled="False" 
+            Grid.Row="1" 
+            Grid.Column="0" 
+            SelectedKey="{Binding SelectedKey}" />
+        
+        <view:ManageLocalKeysView 
+            DataContext="{Binding ManageLocalKeysViewModel}"
+            SelectedKey="{Binding ElementName = AllKeys, Path = SelectedItem}" 
+            Grid.Row="2" 
+            Grid.Column="0" />
     </Grid>
 </UserControl>

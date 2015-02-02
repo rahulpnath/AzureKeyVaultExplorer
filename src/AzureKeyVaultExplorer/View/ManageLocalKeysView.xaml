@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
+             xmlns:view="clr-namespace:AzureKeyVaultExplorer.View"
+             mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <GroupBox Header="Manage Local Keys" 
@@ -11,10 +12,22 @@
                   Margin="10,0,0,0" 
                   Grid.Column="0">
             <StackPanel Margin="10" Orientation="Horizontal">
-                <Button Content="Add" />
+                <Button Content="Add" Command="{Binding AddKeyCommand}" />
                 <Button Content="Edit" />
                 <Button Content="Delete" />
             </StackPanel>
         </GroupBox>
+
+        <view:AddKeyView DataContext="{Binding AddKeyViewModel}" >
+            <view:AddKeyView.Style>
+                <Style TargetType="{x:Type view:AddKeyView}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=.}" Value="{x:Null}" >
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </view:AddKeyView.Style>
+        </view:AddKeyView>
     </Grid>
 </UserControl>

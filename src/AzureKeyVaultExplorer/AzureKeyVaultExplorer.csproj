@@ -87,13 +87,18 @@
     <Compile Include="Model\KeyVaultConfigurationChangedEventArgs.cs" />
     <Compile Include="Model\KeyVaultConfigurationRepository.cs" />
     <Compile Include="ViewModel\AddKeyVaultAccountViewModel.cs" />
+    <Compile Include="ViewModel\AddKeyViewModel.cs" />
     <Compile Include="ViewModel\AzureKeyVaultExplorerViewModel.cs" />
     <Compile Include="ViewModel\KeyVaultAccountViewModel.cs" />
     <Compile Include="ViewModel\ManageKeyVaultAccountsViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\ManageLocalKeysViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\AddKeyValultAccountView.xaml.cs">
       <DependentUpon>AddKeyValultAccountView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AddKeyView.xaml.cs">
+      <DependentUpon>AddKeyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\AzureKeyVaultExplorerView.xaml.cs">
       <DependentUpon>AzureKeyVaultExplorerView.xaml</DependentUpon>
@@ -119,6 +124,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\AddKeyValultAccountView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AddKeyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

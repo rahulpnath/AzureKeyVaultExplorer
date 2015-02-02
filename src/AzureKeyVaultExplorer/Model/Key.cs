@@ -3,9 +3,20 @@
     using System;
 
     using Microsoft.KeyVault.Client;
+    using Microsoft.KeyVault.WebKey;
+
+    using Newtonsoft.Json;
 
     public class Key
     {
+        public Key()
+        {
+            this.IsLocal = true;
+            this.KeyBundle = new KeyBundle();
+            this.KeyBundle.Key = new JsonWebKey();
+            this.KeyBundle.Key.Kty = "RSA";
+        }
+
         public Key(KeyBundle keyBundle, bool isLocal)
         {
             if (keyBundle == null || keyBundle.Key == null || string.IsNullOrWhiteSpace(keyBundle.Key.Kid))
@@ -21,6 +32,9 @@
 
         public string Name { get; set; }
 
+        public string KeyIdentifier { get; set; }
+
+        [JsonIgnore]
         public KeyBundle KeyBundle { get; set; }
 
         #region Overrides of Object
@@ -40,7 +54,7 @@
                 return false;
             }
 
-            return this.KeyBundle.Key.Kid.Equals(objAsKey.KeyBundle.Key.Kid);
+            return this.KeyIdentifier.Equals(objAsKey.KeyIdentifier);
         }
 
         #region Overrides of Object
@@ -53,7 +67,7 @@
         /// </returns>
         public override int GetHashCode()
         {
-            return this.KeyBundle.Key.Kid.GetHashCode();
+            return this.KeyIdentifier.GetHashCode();
         }
 
         #region Overrides of Object
@@ -66,7 +80,7 @@
         /// </returns>
         public override string ToString()
         {
-            return this.KeyBundle.Key.Kid;
+            return this.KeyIdentifier;
         }
 
         #endregion

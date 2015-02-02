@@ -50,7 +50,9 @@
             var keyBundle = new KeyBundle();
             keyBundle.Key = new JsonWebKey();
             keyBundle.Key.Kid = "https://test.vault.azure.net/keys/TestKey";
+            
             var key = new Key(keyBundle, true);
+            key.KeyIdentifier = "https://test.vault.azure.net/keys/TestKey";
             return key;
         }
 
