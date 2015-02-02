@@ -3,9 +3,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
-    using System.Windows.Documents;
 
     using AzureKeyVaultExplorer.Interface;
 
@@ -78,7 +76,7 @@
             return true;
         }
 
-        private List<KeyVaultConfiguration> GetAllConfigurationsFromStorage()
+        private void GetAllConfigurationsFromStorage()
         {
             var pattern = string.Format(ConfigurationFileFormat, "*");
             this.allConfigurations.Clear();
@@ -89,8 +87,6 @@
                 var configuration = JsonConvert.DeserializeObject<KeyVaultConfiguration>(fileContents);
                 this.allConfigurations.Add(configuration);
             }
-
-            return this.allConfigurations;
         }
     }
 }

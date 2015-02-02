@@ -79,8 +79,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Interface\IKeyRepository.cs" />
     <Compile Include="Interface\IKeyVaultConfigurationRepository.cs" />
     <Compile Include="Model\Key.cs" />
+    <Compile Include="Model\KeyRepository.cs" />
     <Compile Include="Model\KeyVaultConfiguration.cs" />
     <Compile Include="Model\KeyVaultConfigurationChangedEventArgs.cs" />
     <Compile Include="Model\KeyVaultConfigurationRepository.cs" />

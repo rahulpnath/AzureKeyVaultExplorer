@@ -5,8 +5,6 @@
 
     using AzureKeyVaultExplorer.Model;
 
-    using Microsoft.KeyVault.Client;
-
     /// <summary>
     /// Interaction logic for ManageLocalKeysView.xaml
     /// </summary>

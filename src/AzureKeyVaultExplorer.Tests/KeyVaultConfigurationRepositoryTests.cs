@@ -1,6 +1,5 @@
 ﻿namespace AzureKeyVaultExplorer.Tests
 {
-    using System.ComponentModel.Design;
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
@@ -9,8 +8,6 @@
     using AzureKeyVaultExplorer.Model;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-    using Moq;
 
     [TestClass]
     public class KeyVaultConfigurationRepositoryTests
