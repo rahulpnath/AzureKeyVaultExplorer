@@ -1,31 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
-namespace AzureKeyVaultExplorer.View
+﻿namespace AzureKeyVaultExplorer.View
 {
+    using System.Windows;
+    using System.Windows.Controls;
+    using AzureKeyVaultExplorer.Model;
+    using AzureKeyVaultExplorer.ViewModel;
+
     /// <summary>
     /// Interaction logic for KeyCryptographicOperationsView.xaml
     /// </summary>
     public partial class KeyCryptographicOperationsView : UserControl
     {
+        public static readonly DependencyProperty CurrentKeyProperty = 
+            DependencyProperty.Register(
+            "CurrentKey", 
+            typeof(Key),
+            typeof(KeyCryptographicOperationsView),
+            new FrameworkPropertyMetadata(
+                null,
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnCurrentKeyPropertyChanged));
+
+        private static void OnCurrentKeyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var current = d as KeyCryptographicOperationsView;
+            var dc = current.DataContext as KeyCryptographicOperationsViewModel;
+            dc.CurrentKey = current.CurrentKey;
+        }
+
         public KeyCryptographicOperationsView()
         {
             this.InitializeComponent();
         }
-
-        public static readonly DependencyProperty CurrentKeyProperty = DependencyProperty.Register("CurrentKey", typeof(Key), typeof(KeyCryptographicOperationsView), new PropertyMetadata(default(Key)));
 
         public Key CurrentKey
         {
@@ -36,7 +41,7 @@ namespace AzureKeyVaultExplorer.View
 
             set
             {
-                SetValue(CurrentKeyProperty, value);
+                this.SetValue(CurrentKeyProperty, value);
             }
         }
     }

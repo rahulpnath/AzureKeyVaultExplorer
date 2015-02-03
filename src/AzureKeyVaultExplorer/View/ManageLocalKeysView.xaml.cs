@@ -10,7 +10,15 @@
     /// </summary>
     public partial class ManageLocalKeysView : UserControl
     {
-        public static readonly DependencyProperty SelectedKeyProperty = DependencyProperty.Register("SelectedKey", typeof(Key), typeof(ManageLocalKeysView), new PropertyMetadata(default(Key)));
+
+        public static readonly DependencyProperty SelectedKeyProperty = DependencyProperty.Register(
+            "SelectedKey",
+             typeof(Key),
+            typeof(ManageLocalKeysView),
+            new FrameworkPropertyMetadata(
+                null,
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnSelectedKeyChanged));
 
         public ManageLocalKeysView()
         {
@@ -19,15 +27,12 @@
 
         public Key SelectedKey
         {
-            get
-            {
-                return (Key)GetValue(SelectedKeyProperty);
-            }
+            get { return (Key)GetValue(SelectedKeyProperty); }
+            set { this.SetValue(SelectedKeyProperty, value); }
+        }
 
-            set
-            {
-                this.SetValue(SelectedKeyProperty, value);
-            }
+        private static void OnSelectedKeyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
         }
     }
 }

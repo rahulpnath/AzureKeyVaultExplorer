@@ -1,8 +1,10 @@
 ﻿namespace AzureKeyVaultExplorer.ViewModel
 {
+    using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
 
     using AzureKeyVaultExplorer.Interface;
+    using AzureKeyVaultExplorer.Model;
 
     using GalaSoft.MvvmLight;
     using GalaSoft.MvvmLight.Command;
@@ -19,6 +21,7 @@
         {
             this.keyOperations = keyOperations;
             this.EncryptCommand = new RelayCommand(this.OnEncryptCommand);
+            this.DecryptCommand = new RelayCommand(this.OnDecryptCommand);
         }
 
         public string InputString
@@ -46,13 +49,22 @@
             }
         }
 
+        public Key CurrentKey { get; set; }
+
         public RelayCommand EncryptCommand { get; set; }
 
         public RelayCommand DecryptCommand { get; set; }
 
         private async void OnEncryptCommand()
         {
-            this.EncryptedString = await this.keyOperations.Encrypt(null, this.inputString);
+            this.EncryptedString = null;
+            this.EncryptedString = await this.keyOperations.Encrypt(this.CurrentKey, this.inputString);
+        }
+
+        private async void OnDecryptCommand()
+        {
+            this.EncryptedString = null;
+            this.EncryptedString = await this.keyOperations.Decrypt(this.CurrentKey, this.inputString);
         }
     }
 }

@@ -12,7 +12,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBox Text="{Binding InputString}" />
-        <TextBlock Text="{Binding EncryptedString}" Grid.Row="1" />
+        <TextBox IsReadOnly="True" Text="{Binding EncryptedString}" Grid.Row="1" TextWrapping="Wrap" />
         <StackPanel Grid.Row="2" Orientation="Horizontal">
             <Button Content="Encrypt" Command="{Binding EncryptCommand}" />
             <Button Content="Decrypt" Command="{Binding DecryptCommand}" />

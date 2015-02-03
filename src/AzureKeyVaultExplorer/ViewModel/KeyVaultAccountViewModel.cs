@@ -15,6 +15,8 @@
 
         private readonly IKeyRepository keyRepository;
 
+        private Key selectedKey;
+
         public KeyVaultAccountViewModel(KeyVaultConfiguration keyVaultConfiguration, IKeyRepository keyRepository)
         {
             if (keyVaultConfiguration == null)
@@ -41,7 +43,19 @@
 
         public KeyCryptographicOperationsViewModel KeyCryptographicOperationsViewModel { get; set; }
 
-        public Key SelectedKey { get; set; }
+        public Key SelectedKey
+        {
+            get
+            {
+                return this.selectedKey;
+            }
+
+            set
+            {
+                this.selectedKey = value;
+                this.RaisePropertyChanged(() => this.SelectedKey);
+            }
+        }
 
         private void HandleKeysModified(object sender, EventArgs e)
         {

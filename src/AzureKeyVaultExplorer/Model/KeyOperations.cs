@@ -1,5 +1,6 @@
 ﻿namespace AzureKeyVaultExplorer.Model
 {
+    using System;
     using System.Runtime.InteropServices;
     using System.Text;
     using System.Threading.Tasks;
@@ -23,14 +24,16 @@
 
         public async Task<string> Encrypt(Key key, string dataToEncrypt)
         {
-            var byteData = Encoding.Unicode.GetBytes(dataToEncrypt);
+            var byteData = Convert.FromBase64String(dataToEncrypt);
             var result = await this.keyVaultClient.EncryptDataAsync(key.KeyIdentifier, "RSA_OAEP", byteData);
-            return Encoding.Unicode.GetString(result.Result);
+            return Convert.ToBase64String(result.Result);
         }
 
-        public Task<string> Decrypt(Key key, string dataToDecrypt)
+        public async Task<string> Decrypt(Key key, string dataToDecrypt)
         {
-            throw new System.NotImplementedException();
+            var byteData = Convert.FromBase64String(dataToDecrypt);
+            var result = await this.keyVaultClient.DecryptDataAsync(key.KeyIdentifier, "RSA_OAEP", byteData);
+            return Convert.ToBase64String(result.Result);
         }
 
         private string HandleKeyVaultAuthenticationCallback(string authority, string resource, string scope)
