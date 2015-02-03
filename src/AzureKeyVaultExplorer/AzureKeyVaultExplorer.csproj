@@ -44,6 +44,12 @@
     <Reference Include="GalaSoft.MvvmLight.Platform">
       <HintPath>..\packages\MvvmLightLibs.5.0.2.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory">
+      <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.2.14.201151115\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms">
+      <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.2.14.201151115\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.KeyVault.Client">
       <HintPath>..\References\KeyVaultClient\Microsoft.KeyVault.Client.dll</HintPath>
     </Reference>
@@ -59,6 +65,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.0.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -79,9 +86,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Interface\IKeyOperations.cs" />
     <Compile Include="Interface\IKeyRepository.cs" />
     <Compile Include="Interface\IKeyVaultConfigurationRepository.cs" />
     <Compile Include="Model\Key.cs" />
+    <Compile Include="Model\KeyOperations.cs" />
     <Compile Include="Model\KeyRepository.cs" />
     <Compile Include="Model\KeyVaultConfiguration.cs" />
     <Compile Include="Model\KeyVaultConfigurationChangedEventArgs.cs" />
@@ -89,6 +98,7 @@
     <Compile Include="ViewModel\AddKeyVaultAccountViewModel.cs" />
     <Compile Include="ViewModel\AddKeyViewModel.cs" />
     <Compile Include="ViewModel\AzureKeyVaultExplorerViewModel.cs" />
+    <Compile Include="ViewModel\KeyCryptographicOperationsViewModel.cs" />
     <Compile Include="ViewModel\KeyVaultAccountViewModel.cs" />
     <Compile Include="ViewModel\ManageKeyVaultAccountsViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
@@ -102,6 +112,9 @@
     </Compile>
     <Compile Include="View\AzureKeyVaultExplorerView.xaml.cs">
       <DependentUpon>AzureKeyVaultExplorerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\KeyCryptographicOperationsView.xaml.cs">
+      <DependentUpon>KeyCryptographicOperationsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\KeyVaultAccountView.xaml.cs">
       <DependentUpon>KeyVaultAccountView.xaml</DependentUpon>
@@ -132,6 +145,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\AzureKeyVaultExplorerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\KeyCryptographicOperationsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

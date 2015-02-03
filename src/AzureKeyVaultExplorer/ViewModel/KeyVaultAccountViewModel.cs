@@ -26,6 +26,7 @@
             this.keyRepository = keyRepository;
             this.ManageLocalKeysViewModel = new ManageLocalKeysViewModel(keyVaultConfiguration.VaultName, keyRepository);
             this.ManageLocalKeysViewModel.KeysModified += this.HandleKeysModified;
+            this.KeyCryptographicOperationsViewModel = new KeyCryptographicOperationsViewModel(new KeyOperations(keyVaultConfiguration));
         }
 
         public ObservableCollection<Key> AllKeys
@@ -37,6 +38,8 @@
         }
 
         public ManageLocalKeysViewModel ManageLocalKeysViewModel { get; set; }
+
+        public KeyCryptographicOperationsViewModel KeyCryptographicOperationsViewModel { get; set; }
 
         public Key SelectedKey { get; set; }
 

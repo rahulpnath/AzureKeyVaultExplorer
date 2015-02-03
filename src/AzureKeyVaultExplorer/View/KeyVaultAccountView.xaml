@@ -12,8 +12,8 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <ComboBox IsEditable="True"
@@ -25,17 +25,24 @@
                   HorizontalAlignment="Left"
                   ItemsSource="{Binding AllKeys}" 
                   SelectedItem="{Binding SelectedKey}" />
-        
+
         <view:ManageVaultKeysView 
             IsEnabled="False" 
             Grid.Row="1" 
             Grid.Column="0" 
             SelectedKey="{Binding SelectedKey}" />
-        
+
         <view:ManageLocalKeysView 
             DataContext="{Binding ManageLocalKeysViewModel}"
             SelectedKey="{Binding ElementName = AllKeys, Path = SelectedItem}" 
             Grid.Row="2" 
             Grid.Column="0" />
+
+        <view:KeyCryptographicOperationsView 
+            Grid.Column="1" 
+            Grid.Row="0" 
+            Grid.RowSpan="3"
+            CurrentKey = "{Binding ElementName= AllKeys, Path=SelectedItem}"
+            DataContext="{Binding KeyCryptographicOperationsViewModel}" />
     </Grid>
 </UserControl>
