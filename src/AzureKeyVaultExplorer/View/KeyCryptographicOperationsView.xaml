@@ -7,15 +7,25 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Margin="10">
         <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBox Text="{Binding InputString}" />
-        <TextBox IsReadOnly="True" Text="{Binding EncryptedString}" Grid.Row="1" TextWrapping="Wrap" />
-        <StackPanel Grid.Row="2" Orientation="Horizontal">
+        <TextBox Margin="5" 
+                 MinHeight="200" 
+                 Text="{Binding InputString}" 
+                 TextWrapping="Wrap" />
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
             <Button Content="Encrypt" Command="{Binding EncryptCommand}" />
             <Button Content="Decrypt" Command="{Binding DecryptCommand}" />
         </StackPanel>
+
+        <TextBox Margin="5"  
+                 MinHeight="200" 
+                 IsReadOnly="True" 
+                 Text="{Binding EncryptedString}" 
+                 Grid.Row="2" 
+                 TextWrapping="Wrap" />
     </Grid>
 </UserControl>
