@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
         <TextBox Margin="5" 
                  MinHeight="200" 
-                 Text="{Binding InputString}" 
+                 Text="{Binding InputString, UpdateSourceTrigger=PropertyChanged}" 
                  TextWrapping="Wrap" />
 
         <StackPanel Grid.Row="1" Orientation="Horizontal">

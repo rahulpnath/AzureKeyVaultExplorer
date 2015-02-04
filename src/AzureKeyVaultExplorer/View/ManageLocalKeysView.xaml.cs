@@ -10,7 +10,6 @@
     /// </summary>
     public partial class ManageLocalKeysView : UserControl
     {
-
         public static readonly DependencyProperty SelectedKeyProperty = DependencyProperty.Register(
             "SelectedKey",
              typeof(Key),

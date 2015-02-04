@@ -23,6 +23,8 @@
             this.AddKeyCommand = new RelayCommand(this.OnAddKey);
         }
 
+        public event EventHandler KeysModified;
+
         public AddKeyViewModel AddKeyViewModel
         {
             get
@@ -36,8 +38,6 @@
                 this.RaisePropertyChanged(() => this.AddKeyViewModel);
             }
         }
-
-        public event EventHandler KeysModified;
 
         public RelayCommand AddKeyCommand { get; set; }
 

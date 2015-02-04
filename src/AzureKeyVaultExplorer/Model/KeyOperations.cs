@@ -24,16 +24,30 @@
 
         public async Task<string> Encrypt(Key key, string dataToEncrypt)
         {
-            var byteData = Convert.FromBase64String(dataToEncrypt);
-            var result = await this.keyVaultClient.EncryptDataAsync(key.KeyIdentifier, "RSA_OAEP", byteData);
-            return Convert.ToBase64String(result.Result);
+            try
+            {
+                var byteData = Convert.FromBase64String(dataToEncrypt);
+                var result = await this.keyVaultClient.EncryptDataAsync(key.KeyIdentifier, "RSA_OAEP", byteData);
+                return Convert.ToBase64String(result.Result);
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
         }
 
         public async Task<string> Decrypt(Key key, string dataToDecrypt)
         {
-            var byteData = Convert.FromBase64String(dataToDecrypt);
-            var result = await this.keyVaultClient.DecryptDataAsync(key.KeyIdentifier, "RSA_OAEP", byteData);
-            return Convert.ToBase64String(result.Result);
+            try
+            {
+                var byteData = Convert.FromBase64String(dataToDecrypt);
+                var result = await this.keyVaultClient.DecryptDataAsync(key.KeyIdentifier, "RSA_OAEP", byteData);
+                return Convert.ToBase64String(result.Result);
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            } 
         }
 
         private string HandleKeyVaultAuthenticationCallback(string authority, string resource, string scope)

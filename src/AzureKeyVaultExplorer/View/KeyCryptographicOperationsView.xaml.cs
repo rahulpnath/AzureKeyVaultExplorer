@@ -20,13 +20,6 @@
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnCurrentKeyPropertyChanged));
 
-        private static void OnCurrentKeyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var current = d as KeyCryptographicOperationsView;
-            var dc = current.DataContext as KeyCryptographicOperationsViewModel;
-            dc.CurrentKey = current.CurrentKey;
-        }
-
         public KeyCryptographicOperationsView()
         {
             this.InitializeComponent();
@@ -42,6 +35,19 @@
             set
             {
                 this.SetValue(CurrentKeyProperty, value);
+            }
+        }
+
+        private static void OnCurrentKeyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var current = d as KeyCryptographicOperationsView;
+            if (current != null)
+            {
+                var dc = current.DataContext as KeyCryptographicOperationsViewModel;
+                if (dc != null)
+                {
+                    dc.CurrentKey = current.CurrentKey;
+                }
             }
         }
     }

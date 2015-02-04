@@ -1,7 +1,6 @@
 ﻿namespace AzureKeyVaultExplorer.ViewModel
 {
     using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
 
     using AzureKeyVaultExplorer.Interface;
