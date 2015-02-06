@@ -77,6 +77,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AddKeyVaultAccountViewModelTests.cs" />
+    <Compile Include="AddKeyViewModelTests.cs" />
     <Compile Include="KeyRepositoryTests.cs" />
     <Compile Include="KeyTests.cs" />
     <Compile Include="KeyVaultConfigurationRepositoryTests.cs" />

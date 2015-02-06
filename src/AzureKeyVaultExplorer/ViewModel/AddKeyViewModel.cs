@@ -11,7 +11,7 @@
 
     public class AddKeyViewModel : ViewModelBase
     {
-        private const string KeyIdentifierFormat = @"https://([www]?)(?<vaultname>.*).vault.azure.net/keys/(?<keyname>.*)/(?<keyversion>.*)";
+        private const string KeyIdentifierFormat = @"https://([www]?)(?<vaultname>.*).vault.azure.net/keys/(?<keyname>.*)[/]?(?<keyversion>.*)";
 
         private readonly IKeyRepository keyRepository;
 
@@ -37,7 +37,7 @@
             this.CancelAddKeyCommand = new RelayCommand(this.OnCancelAddKeyCommand);
             this.keyMatcher = new Regex(KeyIdentifierFormat, RegexOptions.Compiled);
             this.key = key;
-            this.KeyIdentifier = key.KeyBundle.Key.Kid;
+            this.KeyIdentifier = key.KeyIdentifier;
         }
 
         public event EventHandler RequestClose;
@@ -65,7 +65,7 @@
         {
             var isEmpty = string.IsNullOrWhiteSpace(this.KeyIdentifier);
             var isValidFormat = this.CheckIfKeyIdntifierMatchesFormat();
-            var isForCurrentVault = this.currentKeyVault.Equals(this.keyVault);
+            var isForCurrentVault = this.currentKeyVault.Equals(this.keyVault, StringComparison.CurrentCultureIgnoreCase);
 
             return !isEmpty && isValidFormat && isForCurrentVault;
         }
@@ -105,7 +105,6 @@
         {
             this.key.IsLocal = true;
             this.key.Name = this.keyName;
-            this.key.KeyBundle.Key.Kid = this.keyIdentifier;
             this.key.KeyIdentifier = this.keyIdentifier;
             await this.keyRepository.InsertOrUpdate(this.key);
             this.RaiseRequestClose();

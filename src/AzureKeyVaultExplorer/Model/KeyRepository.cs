@@ -42,9 +42,10 @@
 
         public Key Get(string keyIdentifier)
         {
-            return this.All.FirstOrDefault(k => k.KeyBundle.Key.Kid.Equals(keyIdentifier));
+            return this.All.FirstOrDefault(k => k.KeyIdentifier.Equals(keyIdentifier));
         }
 
+        [Obsolete("Keys should not be updated but only created or deleted")]
         public async Task<bool> InsertOrUpdate(Key key)
         {
             var writeToFile = JsonConvert.SerializeObject(key);
@@ -67,7 +68,7 @@
 
         public bool Delete(Key key)
         {
-            var keyFilePath = Path.Combine(this.keyPath, string.Format(KeyFileFormat, key.KeyBundle.Key.Kid));
+            var keyFilePath = Path.Combine(this.keyPath, string.Format(KeyFileFormat, key.Name));
             File.Delete(keyFilePath);
             this.allKeys.Remove(key);
             return true;
