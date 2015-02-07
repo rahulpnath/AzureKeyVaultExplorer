@@ -6,8 +6,8 @@
 
     public interface IKeyOperations
     {
-        Task<string> Encrypt(Key key, string dataToEncrypt);
+        Task<string> Encrypt(Key key, string dataToEncrypt, IDataConverter dataConverter);
 
-        Task<string> Decrypt(Key key, string dataToDecrypt);
+        Task<string> Decrypt(Key key, string dataToDecrypt, IDataConverter dataConverter);
     }
 }

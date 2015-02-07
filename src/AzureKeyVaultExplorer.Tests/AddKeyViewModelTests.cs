@@ -13,6 +13,10 @@
     [TestClass]
     public class AddKeyViewModelTests
     {
+        private const string ConfigurationsPath = "Configurations";
+
+        private const string KeyVaultName = "Test";
+
         private static Key KeyWithoutIdentifier
         {
             get
@@ -20,10 +24,6 @@
                 return new Key { KeyIdentifier = "https://test.vault.azure.net/keys/TestKey", Name = "TestKey" };
             }
         }
-
-        private const string ConfigurationsPath = "Configurations";
-
-        private const string KeyVaultName = "Test";
 
         [TestInitialize]
         public void Initialize()

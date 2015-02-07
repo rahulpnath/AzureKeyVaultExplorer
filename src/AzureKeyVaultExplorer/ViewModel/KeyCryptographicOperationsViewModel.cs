@@ -16,15 +16,18 @@
 
         private string encryptedString;
 
-        private byte[] inputBase64Array;
+        private byte[] inputAsArray;
 
         public KeyCryptographicOperationsViewModel(IKeyOperations keyOperations)
         {
             this.keyOperations = keyOperations;
-            this.EncryptedString = "Enter a vaild base64 formatted string";
+            this.SelectedDataConverter = new Base64DataConverter();
+            this.EncryptedString = this.SelectedDataConverter.DisplayMessage;
             this.EncryptCommand = new RelayCommand(this.OnEncryptCommand, this.CanExecuteCommand);
             this.DecryptCommand = new RelayCommand(this.OnDecryptCommand, this.CanExecuteCommand);
         }
+
+        public IDataConverter SelectedDataConverter { get; set; }
 
         public string InputString
         {
@@ -64,7 +67,7 @@
         private async void OnEncryptCommand()
         {
             this.EncryptedString = null;
-            this.EncryptedString = await this.keyOperations.Encrypt(this.CurrentKey, this.inputString);
+            this.EncryptedString = await this.keyOperations.Encrypt(this.CurrentKey, this.inputString, this.SelectedDataConverter);
         }
 
         private bool CanExecuteCommand()
@@ -73,13 +76,13 @@
             {
                 try
                 {
-                    this.inputBase64Array = Convert.FromBase64String(this.inputString);
                     this.EncryptedString = string.Empty;
+                    this.inputAsArray = this.SelectedDataConverter.ConvertToByteArray(this.inputString);
                     return true;
                 }
                 catch (Exception)
                 {
-                    this.EncryptedString = "Enter a vaild base64 formatted string";
+                    this.EncryptedString = this.SelectedDataConverter.DisplayMessage;
                 }
             }
 
@@ -89,7 +92,7 @@
         private async void OnDecryptCommand()
         {
             this.EncryptedString = null;
-            this.EncryptedString = await this.keyOperations.Decrypt(this.CurrentKey, this.inputString);
+            this.EncryptedString = await this.keyOperations.Decrypt(this.CurrentKey, this.inputString, this.SelectedDataConverter);
         }
     }
 }

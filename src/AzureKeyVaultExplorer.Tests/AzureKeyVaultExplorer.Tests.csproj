@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="AddKeyVaultAccountViewModelTests.cs" />
     <Compile Include="AddKeyViewModelTests.cs" />
+    <Compile Include="Base64DataConverterTests.cs" />
     <Compile Include="KeyRepositoryTests.cs" />
     <Compile Include="KeyTests.cs" />
     <Compile Include="KeyVaultConfigurationRepositoryTests.cs" />

@@ -8,7 +8,7 @@ using System.Windows;
 [assembly: AssemblyTitle("AzureKeyVaultExplorer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Rahul P Nath")]
 [assembly: AssemblyProduct("AzureKeyVaultExplorer")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
