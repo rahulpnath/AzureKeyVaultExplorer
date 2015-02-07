@@ -51,6 +51,7 @@
         {
             this.AddKeyViewModel.RequestClose -= this.HandleRequestCloseForAddKeyModel;
             this.AddKeyViewModel = null;
+            this.RaiseKeysModified();
         }
 
         private void RaiseKeysModified()
