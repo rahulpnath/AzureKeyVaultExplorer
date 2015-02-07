@@ -15,7 +15,7 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <PublishUrl>C:\Users\rahulpul\Documents\GitHub\AzureKeyVaultExplorer\Installer\</PublishUrl>
+    <PublishUrl>C:\Users\rahulpul\Documents\GitHub\AzureKeyVaultExplorer\Installer\Beta\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -25,11 +25,15 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>https://github.com/rahulpnath/AzureKeyVaultExplorer/tree/master/Installer/</InstallUrl>
+    <InstallUrl>https://raw.githubusercontent.com/rahulpnath/AzureKeyVaultExplorer/master/Installer/Beta/AzureKeyVaultExplorer.exe/</InstallUrl>
+    <SupportUrl>https://github.com/rahulpnath/AzureKeyVaultExplorer</SupportUrl>
+    <ErrorReportUrl>https://github.com/rahulpnath/AzureKeyVaultExplorer/Issues</ErrorReportUrl>
+    <ProductName>Azure Key Vault Explorer</ProductName>
+    <PublisherName>Rahul P Nath</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
-    <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>2</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <WebPage>AzureKeyVaultExplorer.htm</WebPage>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>0.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -63,7 +67,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight">

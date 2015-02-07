@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <startup>
+    <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5.1" />
+  </startup>
+  <appSettings>
+    <add key="AzureKeyVaultUrl" value=" https://testvaultrahul.vault.azure.net" />
+    <add key="ADApplicationClientId" value="6aefaf53-b8bb-47ae-b39e-484ec6b9ca01" />
+    <add key="ADAppicationClientSecret" value="ddgd0lEBgtGcCblxYRqLzOeFhKIdhPzsSBLtxHdVBMY=" />
+  </appSettings>
+</configuration>
