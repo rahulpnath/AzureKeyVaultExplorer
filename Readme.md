@@ -1,8 +1,10 @@
-# AzureKeyVaultExplorer
+# Azure Key Vault Explorer
 Azure Key Vault Explorer can be used to manage different Azure Key vault accounts, for managing keys and also to encrypt/decrypt content using the keys in the vault.
 Follow the below steps to get started
  
 1. To add an account you need to provide the vault url, and the AD appication ID and secret.
+2. 
+![](https://raw.githubusercontent.com/rahulpnath/AzureKeyVaultExplorer/master/Images/AddAccount.png)
 
 2. Once the account is added, you will see the options to manage the keys for the vault. You could either manage all the keys from the vault(if you have the necessary get permissions from the AD application), using '*Manage Key Vault Keys*'. If not you can add the key details that you have got offline channel, using '*Manage Local Keys*'
 
@@ -11,6 +13,8 @@ Follow the below steps to get started
 
 The beta version can be installed from below location.
 [https://github.com/rahulpnath/AzureKeyVaultExplorer/raw/master/Installer/Beta/setup.exe](https://github.com/rahulpnath/AzureKeyVaultExplorer/raw/master/Installer/Beta/setup.exe)  
+
+![](https://raw.githubusercontent.com/rahulpnath/AzureKeyVaultExplorer/master/Images/CryptographicOperations.png)
 
 PS : 
 Current only beta version is available and only managing the local keys are available. Also only adding of the accounts/keys are available. Features will be added soon. For any issues and feature requests please feel free to raise them [here](https://github.com/rahulpnath/AzureKeyVaultExplorer/issues)
