@@ -8,7 +8,7 @@
         <beforeApplicationStartup />
       </update>
     </subscription>
-    <deploymentProvider codebase="https://raw.githubusercontent.com/rahulpnath/AzureKeyVaultExplorer/master/Installer/Beta/AzureKeyVaultExplorer.exe/AzureKeyVaultExplorer.application" />
+    <deploymentProvider codebase="https://raw.githubusercontent.com/rahulpnath/AzureKeyVaultExplorer/master/Installer/Beta/AzureKeyVaultExplorer.application" />
   </deployment>
   <compatibleFrameworks xmlns="urn:schemas-microsoft-com:clickonce.v2">
     <framework targetVersion="4.5.1" profile="Full" supportedRuntime="4.0.30319" />
@@ -21,7 +21,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>FuBdh0QuRbfgVyRpC1gT+eMzMfTq57RHEmtMkEavLKs=</dsig:DigestValue>
+        <dsig:DigestValue>Ne6UcWX2GlSBRVY9nlzyGDOVhklXWgXpXjealJTxt/w=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
