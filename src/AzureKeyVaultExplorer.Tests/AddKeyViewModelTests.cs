@@ -1,13 +1,10 @@
 ﻿namespace AzureKeyVaultExplorer.Tests
 {
     using System.IO;
-
     using AzureKeyVaultExplorer.Interface;
     using AzureKeyVaultExplorer.Model;
     using AzureKeyVaultExplorer.ViewModel;
-
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using Moq;
 
     [TestClass]
@@ -21,7 +18,7 @@
         {
             get
             {
-                return new Key { KeyIdentifier = "https://test.vault.azure.net/keys/TestKey", Name = "TestKey" };
+                return new Key { KeyIdentifier = "https://test.vault.azure.net/keys/TestKey/", Name = "TestKey" };
             }
         }
 
@@ -61,7 +58,7 @@
             viewModel.KeyIdentifier = "invaididentifier";
             Assert.IsFalse(viewModel.AddKeyCommand.CanExecute(null));
 
-            viewModel.KeyIdentifier = "https://test.vault.azure.net/keys/TestKey";
+            viewModel.KeyIdentifier = "https://test.vault.azure.net/keys/TestKey/";
 
             Assert.IsTrue(viewModel.AddKeyCommand.CanExecute(null));
         }
