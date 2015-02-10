@@ -11,7 +11,7 @@
 
     public class AddKeyViewModel : ViewModelBase
     {
-        private const string KeyIdentifierFormat = @"https://([www]?)(?<vaultname>.*).vault.azure.net/keys/(?<keyname>.*)/(?<keyversion>.*)";
+        private const string KeyIdentifierFormat = @"https://([www]?)(?<vaultname>[a-zA-Z0-9-]{3,24}).vault.azure.net/keys/(?<keyname>[a-zA-Z0-9-]{1,63})[/]?(?<keyversion>[^/]*)[/]?";
 
         private readonly IKeyRepository keyRepository;
 
