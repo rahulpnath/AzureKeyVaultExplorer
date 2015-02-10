@@ -10,7 +10,7 @@
 
         Key Get(string name);
 
-        Task<bool> InsertOrUpdate(Key key);
+        Task<bool> Add(Key key);
 
         bool Delete(Key key);
     }

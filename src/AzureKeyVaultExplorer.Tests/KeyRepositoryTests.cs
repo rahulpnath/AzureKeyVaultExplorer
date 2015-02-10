@@ -1,13 +1,9 @@
 ﻿namespace AzureKeyVaultExplorer.Tests
 {
-    using System.CodeDom;
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
-
     using AzureKeyVaultExplorer.Model;
-
-    using Microsoft.KeyVault.Client;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -17,17 +13,7 @@
 
         private const string KeyPath = @"Configurations\{0}";
 
-        private const string KeyFileFormat = "{0}.key.json";
-
         private const string VaultName = "testVault";
-
-        private static Key KeyWithoutIdentifier
-        {
-            get
-            {
-                return new Key { KeyIdentifier = "https://test.vault.azure.net/keys/TestKey", Name = "TestKey" };
-            }
-        }
 
         private static Key KeyWithIdentifier
         {
@@ -62,7 +48,7 @@
         public async Task AddKeyTest()
         {
             var keyRepository = new KeyRepository(VaultName);
-            var isInserted = await keyRepository.InsertOrUpdate(KeyWithIdentifier);
+            var isInserted = await keyRepository.Add(KeyWithIdentifier);
             Assert.IsTrue(isInserted);
             Assert.IsTrue(keyRepository.All.Count() == 1);
 
@@ -76,7 +62,7 @@
             this.Initialize();
 
             var keyRepository = new KeyRepository(VaultName);
-            var isInserted = await keyRepository.InsertOrUpdate(KeyWithIdentifier);
+            var isInserted = await keyRepository.Add(KeyWithIdentifier);
             Assert.IsTrue(isInserted);
             Assert.IsTrue(keyRepository.All.Count() == 1);
 
@@ -89,6 +75,5 @@
             newKeyRepository = new KeyRepository(VaultName);
             Assert.IsTrue(!newKeyRepository.All.Any());
         }
-        
     }
 }

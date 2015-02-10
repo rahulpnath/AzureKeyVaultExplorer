@@ -1,10 +1,8 @@
 ﻿namespace AzureKeyVaultExplorer.Model
 {
     using System;
-
     using Microsoft.KeyVault.Client;
     using Microsoft.KeyVault.WebKey;
-
     using Newtonsoft.Json;
 
     public class Key

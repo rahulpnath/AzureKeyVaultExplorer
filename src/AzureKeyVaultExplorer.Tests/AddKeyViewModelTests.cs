@@ -74,7 +74,7 @@
             viewModel.RequestClose += (sender, args) => Assert.AreEqual(sender, viewModel);
             viewModel.AddKeyCommand.Execute(null);
 
-            keyRepository.Verify(a => a.InsertOrUpdate(key), Times.Once);
+            keyRepository.Verify(a => a.Add(key), Times.Once);
         }
 
         [TestMethod]

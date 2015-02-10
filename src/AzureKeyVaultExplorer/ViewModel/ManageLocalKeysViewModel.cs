@@ -21,8 +21,9 @@
             this.vaultName = vaultName;
             this.keyRepository = keyRepository;
             this.AddKeyCommand = new RelayCommand(this.OnAddKey);
+            this.DeleteKeyCommand = new RelayCommand(this.OnDeleteKey, this.CanDeleteKey);
         }
-
+        
         public event EventHandler KeysModified;
 
         public AddKeyViewModel AddKeyViewModel
@@ -39,7 +40,28 @@
             }
         }
 
+        public Key SelectedKey { get; private set; }
+
         public RelayCommand AddKeyCommand { get; set; }
+
+        public RelayCommand DeleteKeyCommand { get; set; }
+
+        public void SetSelectedKey(Key key)
+        {
+            this.SelectedKey = key;
+            this.DeleteKeyCommand.RaiseCanExecuteChanged();
+        }
+
+        private void OnDeleteKey()
+        {
+            this.keyRepository.Delete(this.SelectedKey);
+            this.RaiseKeysModified();
+        }
+
+        private bool CanDeleteKey()
+        {
+            return this.SelectedKey != null;
+        }
 
         private void OnAddKey()
         {

@@ -141,6 +141,7 @@
     <Compile Include="ViewModel\ManageKeyVaultAccountsViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ManageLocalKeysViewModel.cs" />
+    <Compile Include="ViewModel\ManageVaultKeysViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\AddKeyValultAccountView.xaml.cs">
       <DependentUpon>AddKeyValultAccountView.xaml</DependentUpon>

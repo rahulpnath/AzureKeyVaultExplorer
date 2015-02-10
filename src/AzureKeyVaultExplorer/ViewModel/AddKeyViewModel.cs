@@ -106,7 +106,7 @@
             this.key.IsLocal = true;
             this.key.Name = this.keyName;
             this.key.KeyIdentifier = this.keyIdentifier;
-            await this.keyRepository.InsertOrUpdate(this.key);
+            await this.keyRepository.Add(this.key);
             this.RaiseRequestClose();
         }
     }

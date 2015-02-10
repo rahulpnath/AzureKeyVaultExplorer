@@ -13,8 +13,7 @@
                   Grid.Column="0">
             <StackPanel Margin="10" Orientation="Horizontal">
                 <Button Content="Add" Command="{Binding AddKeyCommand}" />
-                <Button Content="Edit" />
-                <Button Content="Delete" />
+                <Button Content="Delete" Command="{Binding DeleteKeyCommand}" />
             </StackPanel>
         </GroupBox>
 

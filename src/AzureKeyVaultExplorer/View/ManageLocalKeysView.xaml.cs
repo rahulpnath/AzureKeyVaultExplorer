@@ -4,6 +4,7 @@
     using System.Windows.Controls;
 
     using AzureKeyVaultExplorer.Model;
+    using AzureKeyVaultExplorer.ViewModel;
 
     /// <summary>
     /// Interaction logic for ManageLocalKeysView.xaml
@@ -32,6 +33,15 @@
 
         private static void OnSelectedKeyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            var current = d as ManageLocalKeysView;
+            if (current != null)
+            {
+                var dataContext = current.DataContext as ManageLocalKeysViewModel;
+                if (dataContext != null)
+                {
+                    dataContext.SetSelectedKey(current.SelectedKey);
+                }
+            }
         }
     }
 }

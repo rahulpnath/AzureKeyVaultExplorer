@@ -40,6 +40,8 @@
 
         public ManageLocalKeysViewModel ManageLocalKeysViewModel { get; set; }
 
+        public ManageVaultKeysViewModel ManageVaultKeysViewModel { get; set; }
+
         public KeyCryptographicOperationsViewModel KeyCryptographicOperationsViewModel { get; set; }
 
         public Key SelectedKey

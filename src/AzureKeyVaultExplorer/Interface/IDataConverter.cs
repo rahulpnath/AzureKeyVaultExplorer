@@ -2,7 +2,7 @@
 {
     public interface IDataConverter
     {
-        string DisplayMessage { get;}
+        string DisplayMessage { get; }
 
         string ConvertToString(byte[] data);
 
