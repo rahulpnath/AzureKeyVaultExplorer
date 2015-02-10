@@ -13,8 +13,7 @@
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <ComboBox SelectedItem="{Binding SelectedKeyVaultConfiguration}"  ItemsSource="{Binding KeyVaultConfigurations}" IsEditable="True" IsReadOnly="True" MinWidth="300" Text="Add Azure Key Vault Account" />
             <Button Content="Add Account" Command="{Binding AddKeyVaultAccountCommand}" />
-            <Button Content="Edit" />
-            <Button Content="Remove" />
+            <Button Content="Delete" Command="{Binding DeleteKeyVaultAccountCommand}" />
         </StackPanel>
         <view:AddKeyValultAccountView Grid.Row="1" DataContext="{Binding AddKeyVaultAccountViewModel}" >
             <view:AddKeyValultAccountView.Style>

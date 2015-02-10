@@ -32,7 +32,16 @@
 
         private void HandleConfigurationChanged(object sender, KeyVaultConfigurationChangedEventArgs e)
         {
-            this.KeyVaultAccountViewModel = new KeyVaultAccountViewModel(e.KeyVaultConfiguration, new KeyRepository(e.KeyVaultConfiguration.VaultName));
+            if (e.KeyVaultConfiguration != null)
+            {
+                this.KeyVaultAccountViewModel = new KeyVaultAccountViewModel(
+                    e.KeyVaultConfiguration,
+                    new KeyRepository(e.KeyVaultConfiguration.VaultName));
+            }
+            else
+            {
+                this.KeyVaultAccountViewModel = null;
+            }
         }
     }
 }

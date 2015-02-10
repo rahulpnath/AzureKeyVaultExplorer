@@ -19,7 +19,7 @@
             var viewModel = new ManageLocalKeysViewModel(VaultName, new Mock<IKeyRepository>().Object);
             Assert.IsNotNull(viewModel.AddKeyCommand);
             Assert.IsNull(viewModel.AddKeyViewModel);
-            Assert.IsNull(viewModel.DeleteKeyCommand);
+            Assert.IsNotNull(viewModel.DeleteKeyCommand);
             Assert.IsTrue(viewModel.AddKeyCommand.CanExecute(null));
             Assert.IsFalse(viewModel.DeleteKeyCommand.CanExecute(null));
         }

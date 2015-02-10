@@ -21,6 +21,7 @@
         public ManageKeyVaultAccountsViewModel(IKeyVaultConfigurationRepository keyVaultConfigurationRepository)
         {
             this.keyVaultConfigurationRepository = keyVaultConfigurationRepository;
+            this.DeleteKeyVaultAccountCommand = new RelayCommand(this.OnDeleteKeyVaultConfiguration, this.CanDeleteKeyVaultConfiguration);
         }
 
         public delegate void ConfigurationChangedEventHadler(object sender, KeyVaultConfigurationChangedEventArgs e);
@@ -60,6 +61,7 @@
             {
                 this.selectedKeyVaultConfiguration = value;
                 this.RaiseConfigurationChangedEvent();
+                this.DeleteKeyVaultAccountCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -71,9 +73,24 @@
             }
         }
 
+        public RelayCommand DeleteKeyVaultAccountCommand { get; private set; }
+
         public bool CheckIfVaultUrlAlreadyExists(string keyVaultUrl)
         {
             return this.KeyVaultConfigurations.Any(c => string.Equals(keyVaultUrl, c.AzureKeyVaultUrl, StringComparison.CurrentCultureIgnoreCase));
+        }
+
+        private bool CanDeleteKeyVaultConfiguration()
+        {
+            return this.SelectedKeyVaultConfiguration != null;
+        }
+
+        private void OnDeleteKeyVaultConfiguration()
+        {
+            this.keyVaultConfigurationRepository.Delete(this.selectedKeyVaultConfiguration);
+            this.RaisePropertyChanged(() => this.KeyVaultConfigurations);
+            this.SelectedKeyVaultConfiguration = null;
+            this.RaiseConfigurationChangedEvent();
         }
 
         private void OpenAddKeyVaultAccount()
