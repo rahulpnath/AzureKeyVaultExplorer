@@ -28,7 +28,6 @@
 
             <view:ManageVaultKeysView
             VerticalAlignment="Top"
-            IsEnabled="False" 
             Grid.Row="1" 
             Grid.Column="0" 
             DataContext="{Binding ManageVaultKeysViewModel}"

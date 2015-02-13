@@ -1,12 +1,8 @@
 ﻿namespace AzureKeyVaultExplorer.Model
 {
     using System;
-    using System.Runtime.InteropServices;
-    using System.Text;
     using System.Threading.Tasks;
-
     using AzureKeyVaultExplorer.Interface;
-
     using Microsoft.IdentityModel.Clients.ActiveDirectory;
     using Microsoft.KeyVault.Client;
 

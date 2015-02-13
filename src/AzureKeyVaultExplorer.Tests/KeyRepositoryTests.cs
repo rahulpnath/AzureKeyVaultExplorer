@@ -50,10 +50,10 @@
             var keyRepository = new KeyRepository(VaultName);
             var isInserted = await keyRepository.Add(KeyWithIdentifier);
             Assert.IsTrue(isInserted);
-            Assert.IsTrue(keyRepository.All.Count() == 1);
+            Assert.IsTrue(keyRepository.GetAll().Result.Count() == 1);
 
             var newKeyRepository = new KeyRepository(VaultName);
-            Assert.IsTrue(newKeyRepository.All.Count() == 1);
+            Assert.IsTrue(newKeyRepository.GetAll().Result.Count() == 1);
         }
 
         [TestMethod]
@@ -64,16 +64,16 @@
             var keyRepository = new KeyRepository(VaultName);
             var isInserted = await keyRepository.Add(KeyWithIdentifier);
             Assert.IsTrue(isInserted);
-            Assert.IsTrue(keyRepository.All.Count() == 1);
+            Assert.IsTrue(keyRepository.GetAll().Result.Count() == 1);
 
             var newKeyRepository = new KeyRepository(VaultName);
-            Assert.IsTrue(newKeyRepository.All.Count() == 1);
-            var isDeleted = newKeyRepository.Delete(newKeyRepository.All.First());
+            Assert.IsTrue(newKeyRepository.GetAll().Result.Count() == 1);
+            var isDeleted = await newKeyRepository.Delete(newKeyRepository.GetAll().Result.First());
             Assert.IsTrue(isDeleted);
-            Assert.IsTrue(!newKeyRepository.All.Any());
+            Assert.IsTrue(!newKeyRepository.GetAll().Result.Any());
 
             newKeyRepository = new KeyRepository(VaultName);
-            Assert.IsTrue(!newKeyRepository.All.Any());
+            Assert.IsTrue(!newKeyRepository.GetAll().Result.Any());
         }
     }
 }

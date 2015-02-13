@@ -14,7 +14,7 @@
             <StackPanel Margin="10" Orientation="Horizontal">
                 <Button Content="Create" />
                 <Button Content="Delete" />
-                <Button Content="Get All" />
+                <Button Content="Get All" Command="{Binding GetAllCommand}" />
             </StackPanel>
         </GroupBox>
     </Grid>
