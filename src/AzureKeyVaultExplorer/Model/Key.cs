@@ -9,11 +9,13 @@
     {
         public Key(string vaultName, string keyName, string version = null, string keyType = "RSA", bool isLocal = false)
         {
+            const string KeyIdentifierUrlFormat = @"https://{0}.vault.azure.net/keys/{1}/{2}";
             this.VaultName = vaultName;
             this.Name = keyName;
             this.Version = version;
             this.KeyType = keyType;
             this.IsLocal = isLocal;
+            this.KeyIdentifier = string.Format(KeyIdentifierUrlFormat, vaultName, keyName, version);
         }
 
         [JsonConstructor]
