@@ -1,36 +1,57 @@
 ﻿namespace AzureKeyVaultExplorer.Model
 {
     using System;
+    using System.Text.RegularExpressions;
     using Microsoft.KeyVault.Client;
-    using Microsoft.KeyVault.WebKey;
     using Newtonsoft.Json;
 
     public class Key
     {
-        public Key()
+        public Key(string vaultName, string keyName, string version = null, string keyType = "RSA", bool isLocal = false)
         {
-            this.IsLocal = true;
-            this.KeyBundle = new KeyBundle();
-            this.KeyBundle.Key = new JsonWebKey();
-            this.KeyBundle.Key.Kty = "RSA";
-        }
-
-        public Key(KeyBundle keyBundle, bool isLocal)
-        {
-            if (keyBundle == null || keyBundle.Key == null || string.IsNullOrWhiteSpace(keyBundle.Key.Kid))
-            {
-                throw new ArgumentNullException("keyBundle");
-            }
-
-            this.KeyBundle = keyBundle;
+            this.VaultName = vaultName;
+            this.Name = keyName;
+            this.Version = version;
+            this.KeyType = keyType;
             this.IsLocal = isLocal;
         }
 
-        public bool IsLocal { get; set; }
+        [JsonConstructor]
+        public Key(string keyIdentifier, string keyType = "RSA", bool isLocal = false)
+        {
+            const string KeyIdentifierFormat = @"https://([www]?)(?<vaultname>[a-zA-Z0-9-]{3,24}).vault.azure.net/keys/(?<keyname>[a-zA-Z0-9-]{1,63})[/]?(?<keyversion>[^/]*)[/]?";
+            var keyMatcher = new Regex(KeyIdentifierFormat);
+            var matches = keyMatcher.Match(keyIdentifier);
 
-        public string Name { get; set; }
+            if (!matches.Success)
+            {
+                throw new FormatException("Key Identifier does not match the expected format.");
+            }
 
-        public string KeyIdentifier { get; set; }
+            this.KeyType = keyType;
+            this.IsLocal = isLocal;
+            this.Name = matches.Groups["keyname"].Value;
+            var keyVersion = matches.Groups["keyversion"].Value;
+            if (!string.IsNullOrWhiteSpace(keyVersion))
+            {
+                this.Version = keyVersion;
+            }
+
+            this.VaultName = matches.Groups["vaultname"].Value;
+            this.KeyIdentifier = keyIdentifier;
+        }
+
+        public bool IsLocal { get; private set; }
+
+        public string Name { get; private set; }
+
+        public string KeyType { get; set; }
+
+        public string VaultName { get; private set; }
+
+        public string Version { get; private set; }
+
+        public string KeyIdentifier { get; private set; }
 
         [JsonIgnore]
         public KeyBundle KeyBundle { get; set; }

@@ -42,8 +42,10 @@
 
             <StackPanel Margin="10">
                 <TextBlock FontSize="18" TextAlignment="Center" Text="Add Local Key" />
-                <TextBlock  Text="Key Identifier:" Style="{StaticResource HeaderText}" />
-                <TextBox Text="{Binding KeyIdentifier, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock  Text="Key Name:" Style="{StaticResource HeaderText}" />
+                <TextBox Text="{Binding KeyName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock  Text="Key Version:" Style="{StaticResource HeaderText}" />
+                <TextBox Text="{Binding KeyVersion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
                     <Button Content="Add" Command="{Binding AddKeyCommand}" />
                     <Button Margin="5,0,0,0" Content="Cancel" Command="{Binding CancelAddKeyCommand}"  />

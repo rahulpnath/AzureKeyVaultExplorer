@@ -11,48 +11,50 @@
 
     public class AddKeyViewModel : ViewModelBase
     {
-        private const string KeyIdentifierFormat = @"https://([www]?)(?<vaultname>[a-zA-Z0-9-]{3,24}).vault.azure.net/keys/(?<keyname>[a-zA-Z0-9-]{1,63})[/]?(?<keyversion>[^/]*)[/]?";
-
         private readonly IKeyRepository keyRepository;
 
         private readonly string currentKeyVault;
 
-        private readonly Regex keyMatcher;
-
-        private readonly Key key;
-
-        private string keyIdentifier;
+        private string keyVersion;
 
         private string keyName;
 
-        private string keyVersion;
-
-        private string keyVault;
-
-        public AddKeyViewModel(IKeyRepository keyRepository, string currentKeyVault, Key key)
+        public AddKeyViewModel(IKeyRepository keyRepository, string currentKeyVault)
         {
             this.keyRepository = keyRepository;
             this.currentKeyVault = currentKeyVault;
             this.AddKeyCommand = new RelayCommand(this.OnAddKeyCommand, this.CanAddKeyCommand);
             this.CancelAddKeyCommand = new RelayCommand(this.OnCancelAddKeyCommand);
-            this.keyMatcher = new Regex(KeyIdentifierFormat, RegexOptions.Compiled);
-            this.key = key;
-            this.KeyIdentifier = key.KeyIdentifier;
         }
 
         public event EventHandler RequestClose;
 
-        public string KeyIdentifier
+        public string KeyName
         {
             get
             {
-                return this.keyIdentifier;
+                return this.keyName;
             }
 
             set
             {
-                this.keyIdentifier = value;
-                this.RaisePropertyChanged(() => this.KeyIdentifier);
+                this.keyName = value;
+                this.RaisePropertyChanged(() => this.KeyName);
+                this.AddKeyCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        public string KeyVersion
+        {
+            get
+            {
+                return this.keyVersion;
+            }
+
+            set
+            {
+                this.keyVersion = value;
+                this.RaisePropertyChanged(() => this.KeyVersion);
                 this.AddKeyCommand.RaiseCanExecuteChanged();
             }
         }
@@ -63,29 +65,7 @@
 
         private bool CanAddKeyCommand()
         {
-            var isEmpty = string.IsNullOrWhiteSpace(this.KeyIdentifier);
-            var isValidFormat = this.CheckIfKeyIdntifierMatchesFormat();
-            var isForCurrentVault = this.currentKeyVault.Equals(this.keyVault, StringComparison.CurrentCultureIgnoreCase);
-
-            return !isEmpty && isValidFormat && isForCurrentVault;
-        }
-
-        private bool CheckIfKeyIdntifierMatchesFormat()
-        {
-            if (string.IsNullOrWhiteSpace(this.keyIdentifier))
-            {
-                return false;
-            }
-
-            var matches = this.keyMatcher.Match(this.KeyIdentifier);
-            if (matches.Success)
-            {
-                this.keyName = matches.Groups["keyname"].Value;
-                this.keyVersion = matches.Groups["keyversion"].Value;
-                this.keyVault = matches.Groups["vaultname"].Value;
-            }
-
-            return matches.Success;
+            return !string.IsNullOrWhiteSpace(this.KeyName);
         }
 
         private void OnCancelAddKeyCommand()
@@ -103,10 +83,8 @@
 
         private async void OnAddKeyCommand()
         {
-            this.key.IsLocal = true;
-            this.key.Name = this.keyName;
-            this.key.KeyIdentifier = this.keyIdentifier;
-            await this.keyRepository.Add(this.key);
+            var key = new Key(this.currentKeyVault, this.KeyName, this.KeyVersion);
+            await this.keyRepository.Add(key);
             this.RaiseRequestClose();
         }
     }

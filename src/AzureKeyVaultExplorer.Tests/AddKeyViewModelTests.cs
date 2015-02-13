@@ -18,7 +18,7 @@
         {
             get
             {
-                return new Key { KeyIdentifier = "https://test.vault.azure.net/keys/TestKey/", Name = "TestKey" };
+                return new Key("https://test.vault.azure.net/keys/TestKey/");
             }
         }
 
@@ -32,35 +32,59 @@
         }
 
         [TestMethod]
-        public void ViewModelPropertiesOnCreatedTest()
+        public void AddKeyViewModelCreateInstanceTest()
         {
             this.Initialize();
             var keyRepository = new Mock<IKeyRepository>();
 
-            var viewModel = new AddKeyViewModel(keyRepository.Object, KeyVaultName, KeyWithoutIdentifier);
+            var viewModel = new AddKeyViewModel(keyRepository.Object, KeyVaultName);
             Assert.IsTrue(viewModel.AddKeyCommand != null);
             Assert.IsTrue(viewModel.CancelAddKeyCommand != null);
-            Assert.IsTrue(viewModel.AddKeyCommand.CanExecute(null));
+            Assert.IsFalse(viewModel.AddKeyCommand.CanExecute(null));
             Assert.IsTrue(viewModel.CancelAddKeyCommand.CanExecute(null));
-            Assert.AreEqual(viewModel.KeyIdentifier, KeyWithoutIdentifier.KeyIdentifier);
         }
 
         [TestMethod]
-        public void CanExecuteCommandTest()
+        public void CanExecuteAddKeyCommandWithOnlyKeyNameTest()
         {
             this.Initialize();
             var keyRepository = new Mock<IKeyRepository>();
 
-            var viewModel = new AddKeyViewModel(keyRepository.Object, KeyVaultName, new Key());
+            var viewModel = new AddKeyViewModel(keyRepository.Object, KeyVaultName);
             Assert.IsFalse(viewModel.AddKeyCommand.CanExecute(null));
             Assert.IsTrue(viewModel.CancelAddKeyCommand.CanExecute(null));
 
-            viewModel.KeyIdentifier = "invaididentifier";
-            Assert.IsFalse(viewModel.AddKeyCommand.CanExecute(null));
-
-            viewModel.KeyIdentifier = "https://test.vault.azure.net/keys/TestKey/";
-
+            viewModel.KeyName = "Keyname";
             Assert.IsTrue(viewModel.AddKeyCommand.CanExecute(null));
+        }
+
+        [TestMethod]
+        public void CanExecuteAddKeyCommandWithAllInputTest()
+        {
+            this.Initialize();
+            var keyRepository = new Mock<IKeyRepository>();
+
+            var viewModel = new AddKeyViewModel(keyRepository.Object, KeyVaultName);
+            Assert.IsFalse(viewModel.AddKeyCommand.CanExecute(null));
+            Assert.IsTrue(viewModel.CancelAddKeyCommand.CanExecute(null));
+
+            viewModel.KeyName = "Keyname";
+            viewModel.KeyVersion = "0f653b06c1d94159bc7090596bbf7784";
+            Assert.IsTrue(viewModel.AddKeyCommand.CanExecute(null));
+        }
+
+        [TestMethod]
+        public void CanExecuteAddKeyCommandWithOnlyKeyVersionTest()
+        {
+            this.Initialize();
+            var keyRepository = new Mock<IKeyRepository>();
+
+            var viewModel = new AddKeyViewModel(keyRepository.Object, KeyVaultName);
+            Assert.IsFalse(viewModel.AddKeyCommand.CanExecute(null));
+            Assert.IsTrue(viewModel.CancelAddKeyCommand.CanExecute(null));
+
+            viewModel.KeyVersion = "12344";
+            Assert.IsFalse(viewModel.AddKeyCommand.CanExecute(null));
         }
 
         [TestMethod]
@@ -68,55 +92,11 @@
         {
             this.Initialize();
             var keyRepository = new Mock<IKeyRepository>();
-
-            var key = KeyWithoutIdentifier;
-            var viewModel = new AddKeyViewModel(keyRepository.Object, KeyVaultName, key);
+            var viewModel = new AddKeyViewModel(keyRepository.Object, KeyVaultName);
+            viewModel.KeyName = "TestKey";
             viewModel.RequestClose += (sender, args) => Assert.AreEqual(sender, viewModel);
             viewModel.AddKeyCommand.Execute(null);
-
-            keyRepository.Verify(a => a.Add(key), Times.Once);
-        }
-
-        [TestMethod]
-        public void CanAddKeyCommandUrlWithNoTrailingSlashAndNoVersionNumberTest()
-        {
-            var addKeyViewModel = new AddKeyViewModel(new Mock<IKeyRepository>().Object, KeyVaultName, new Key());
-            var keyNamePrivate = new PrivateObject(addKeyViewModel);
-            addKeyViewModel.KeyIdentifier = "https://test.vault.azure.net/keys/TestKey";
-            Assert.IsTrue(addKeyViewModel.AddKeyCommand.CanExecute(null));
-            Assert.AreEqual("TestKey", keyNamePrivate.GetField("keyName"));
-        }
-
-        [TestMethod]
-        public void CanAddKeyCommandUrlWithTrailingSlashAndNoVersionNumberTest()
-        {
-            var addKeyViewModel = new AddKeyViewModel(new Mock<IKeyRepository>().Object, KeyVaultName, new Key());
-            var keyNamePrivate = new PrivateObject(addKeyViewModel);
-            addKeyViewModel.KeyIdentifier = "https://test.vault.azure.net/keys/TestKey/";
-            Assert.IsTrue(addKeyViewModel.AddKeyCommand.CanExecute(null));
-            Assert.AreEqual("TestKey", keyNamePrivate.GetField("keyName"));
-        }
-
-        [TestMethod]
-        public void CanAddKeyCommandUrlWithNoTrailingSlashAndVersionNumberTest()
-        {
-            var addKeyViewModel = new AddKeyViewModel(new Mock<IKeyRepository>().Object, KeyVaultName, new Key());
-            var keyNamePrivate = new PrivateObject(addKeyViewModel);
-            addKeyViewModel.KeyIdentifier = "https://test.vault.azure.net/keys/TestKey/123456";
-            Assert.IsTrue(addKeyViewModel.AddKeyCommand.CanExecute(null));
-            Assert.AreEqual("TestKey", keyNamePrivate.GetField("keyName"));
-            Assert.AreEqual("123456", keyNamePrivate.GetField("keyVersion"));
-        }
-
-        [TestMethod]
-        public void CanAddKeyCommandUrlWithTrailingSlashAndVersionNumberTest()
-        {
-            var addKeyViewModel = new AddKeyViewModel(new Mock<IKeyRepository>().Object, KeyVaultName, new Key());
-            var keyNamePrivate = new PrivateObject(addKeyViewModel);
-            addKeyViewModel.KeyIdentifier = "https://test.vault.azure.net/keys/TestKey/123456";
-            Assert.IsTrue(addKeyViewModel.AddKeyCommand.CanExecute(null));
-            Assert.AreEqual("TestKey", keyNamePrivate.GetField("keyName"));
-            Assert.AreEqual("123456", keyNamePrivate.GetField("keyVersion"));
+            keyRepository.Verify(a => a.Add(It.IsAny<Key>()), Times.Once);
         }
 
         [TestMethod]
@@ -126,7 +106,7 @@
             var keyRepository = new Mock<IKeyRepository>();
 
             var key = KeyWithoutIdentifier;
-            var viewModel = new AddKeyViewModel(keyRepository.Object, KeyVaultName, key);
+            var viewModel = new AddKeyViewModel(keyRepository.Object, KeyVaultName);
             viewModel.RequestClose += (sender, args) => Assert.AreEqual(sender, viewModel);
             viewModel.CancelAddKeyCommand.Execute(null);
         }

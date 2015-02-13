@@ -65,7 +65,7 @@
 
         private void OnAddKey()
         {
-            this.AddKeyViewModel = new AddKeyViewModel(this.keyRepository, this.vaultName, new Key());
+            this.AddKeyViewModel = new AddKeyViewModel(this.keyRepository, this.vaultName);
             this.AddKeyViewModel.RequestClose += this.HandleRequestCloseForAddKeyModel;
         }
 

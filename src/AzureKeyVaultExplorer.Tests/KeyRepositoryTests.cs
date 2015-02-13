@@ -19,12 +19,7 @@
         {
             get
             {
-                return new Key
-                       {
-                           KeyIdentifier =
-                               "https://test.vault.azure.net/keys/TestKeyAlternate/09d4ghadf45d423e9c294685a8aa562f",
-                           Name = "TestKeyAlternate"
-                       };
+                return new Key("https://test.vault.azure.net/keys/TestKeyAlternate/09d4ghadf45d423e9c294685a8aa562f");
             }
         }
 
@@ -45,7 +40,7 @@
         }
 
         [TestMethod]
-        public async Task AddKeyTest()
+        public async Task AddKeyToFileRepositoryTest()
         {
             var keyRepository = new KeyRepository(VaultName);
             var isInserted = await keyRepository.Add(KeyWithIdentifier);
@@ -57,7 +52,7 @@
         }
 
         [TestMethod]
-        public async Task DeleteKeyTest()
+        public async Task DeleteKeyFromFileRepositoryTest()
         {
             this.Initialize();
 

@@ -27,17 +27,12 @@
         {
             get
             {
-                return new Key
-                {
-                    KeyIdentifier =
-                        "https://testvaultrahul.vault.azure.net/keys/rahulkey/0f653b06c1d94159bc7090596bbf7784",
-                    Name = "rahulkey"
-                };
+                return new Key("https://testvaultrahul.vault.azure.net/keys/rahulkey/0f653b06c1d94159bc7090596bbf7784");
             }
         }
 
         [TestMethod]
-        public async Task GetAllTest()
+        public async Task GetAllKeyFromVaultTest()
         {
             var keyvaultRepository = new KeyVaultKeyRepository(MockKeyVaultConfiguration);
             var keys = await keyvaultRepository.GetAll();
@@ -45,14 +40,14 @@
         }
 
         [TestMethod]
-        public async Task AddTest()
+        public async Task AddKeyToVaultTest()
         {
             var keyvaultRepository = new KeyVaultKeyRepository(MockKeyVaultConfiguration);
             await keyvaultRepository.Add(Key);
         }
 
         [TestMethod]
-        public async Task DeleteTest()
+        public async Task DeleteKeyFromVaultTest()
         {
             var keyvaultRepository = new KeyVaultKeyRepository(MockKeyVaultConfiguration);
             await keyvaultRepository.Delete(Key);

@@ -20,23 +20,17 @@
             {
                 return new List<Key>()
                        {
-                           {
-                               new Key
-                               {
-                                   KeyIdentifier =
-                                       "https://test.vault.azure.net/keys/TestKey/09d4ghadf45d423e9c294685a8aa562f",
-                                   Name = "TestKey"
-                               }
-                           },
-                           {
-                               new Key
-                               {
-                                   KeyIdentifier =
-                                       "https://test.vault.azure.net/keys/TestKeyAlternate/09d4ghadf45d423e9c294685a8aa562f",
-                                   Name = "TestKeyAlternate"
-                               }
-                           }
+                           { new Key("https://test.vault.azure.net/keys/TestKey/09d4ghadf45d423e9c294685a8aa562f") },
+                           { new Key("https://test.vault.azure.net/keys/TestKeyAlternate/09d4ghadf45d423e9c294685a8aa562f") }
                        };
+            }
+        }
+
+        private static Key Key
+        {
+            get
+            {
+                return new Key("https://test.vault.azure.net/keys/TestKey/09d4ghadf45d423e9c294685a8aa562f");
             }
         }
 
@@ -71,7 +65,7 @@
             var repository = new Mock<IKeyRepository>();
             var viewModel = new ManageVaultKeysViewModel(VaultName, repository.Object, keyVaultRepository.Object);
             Assert.IsFalse(viewModel.DeleteKeyCommand.CanExecute(null));
-            viewModel.SetSelectedKey(new Mock<Key>().Object);
+            viewModel.SetSelectedKey(Key);
             Assert.IsTrue(viewModel.DeleteKeyCommand.CanExecute(null));
         }
 
@@ -82,7 +76,7 @@
             var repository = new Mock<IKeyRepository>();
             var viewModel = new ManageVaultKeysViewModel(VaultName, repository.Object, keyVaultRepository.Object);
             viewModel.KeysModified += (sender, args) => Assert.IsNotNull(sender);
-            var key = new Mock<Key>().Object;
+            var key = Key;
             viewModel.SetSelectedKey(key);
             viewModel.DeleteKeyCommand.Execute(null);
             keyVaultRepository.Verify(a => a.Delete(key));

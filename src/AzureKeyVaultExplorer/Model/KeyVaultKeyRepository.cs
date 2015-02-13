@@ -49,7 +49,7 @@
             await this.keyVaultClient.CreateKeyAsync(
                this.keyVaultConfiguration.AzureKeyVaultUrl,
                key.Name,
-               key.KeyBundle.Key.Kty);
+               key.KeyType);
             return true;
         }
 
@@ -61,12 +61,7 @@
 
         private Key MapVaultKeyToLocalKey(KeyItem vaultKey)
         {
-            // TODO Refactor this to use common logic in view model too
-            const string KeyIdentifierFormat = @"https://([www]?)(?<vaultname>[a-zA-Z0-9-]{3,24}).vault.azure.net/keys/(?<keyname>[a-zA-Z0-9-]{1,63})[/]?(?<keyversion>[^/]*)[/]?";
-            var regex = new Regex(KeyIdentifierFormat);
-            var matches = regex.Match(vaultKey.Kid);
-            var keyName = matches.Groups["keyname"].Value;
-            return new Key { KeyIdentifier = vaultKey.Kid, Name = keyName };
+           return new Key(vaultKey.Kid);
         }
 
         private string HandleKeyVaultAuthenticationCallback(string authority, string resource, string scope)
