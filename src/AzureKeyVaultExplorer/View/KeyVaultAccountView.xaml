@@ -31,7 +31,7 @@
             Grid.Row="1" 
             Grid.Column="0" 
             DataContext="{Binding ManageVaultKeysViewModel}"
-            SelectedKey="{Binding SelectedKey}" />
+            SelectedKey="{Binding ElementName = AllKeys, Path = SelectedItem, Mode=TwoWay}"  />
 
             <view:ManageLocalKeysView 
             VerticalAlignment="Top"

@@ -23,12 +23,39 @@
             }
         }
 
+        private static Key Key
+        {
+            get
+            {
+                return new Key
+                {
+                    KeyIdentifier =
+                        "https://testvaultrahul.vault.azure.net/keys/rahulkey/0f653b06c1d94159bc7090596bbf7784",
+                    Name = "rahulkey"
+                };
+            }
+        }
+
         [TestMethod]
         public async Task GetAllTest()
         {
             var keyvaultRepository = new KeyVaultKeyRepository(MockKeyVaultConfiguration);
             var keys = await keyvaultRepository.GetAll();
             Assert.IsNotNull(keys);
+        }
+
+        [TestMethod]
+        public async Task AddTest()
+        {
+            var keyvaultRepository = new KeyVaultKeyRepository(MockKeyVaultConfiguration);
+            await keyvaultRepository.Add(Key);
+        }
+
+        [TestMethod]
+        public async Task DeleteTest()
+        {
+            var keyvaultRepository = new KeyVaultKeyRepository(MockKeyVaultConfiguration);
+            await keyvaultRepository.Delete(Key);
         }
     }
 }

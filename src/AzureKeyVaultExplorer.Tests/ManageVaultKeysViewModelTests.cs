@@ -47,6 +47,8 @@
             var keyVaultRepository = new Mock<IKeyRepository>();
             var viewModel = new ManageVaultKeysViewModel(VaultName, repository.Object, keyVaultRepository.Object);
             Assert.IsNotNull(viewModel.GetAllCommand);
+            Assert.IsNotNull(viewModel.DeleteKeyCommand);
+            Assert.IsNull(viewModel.SelectedKey);
         }
 
         [TestMethod]
@@ -60,6 +62,31 @@
             viewModel.KeysModified += (sender, args) => Assert.IsNotNull(sender);
             viewModel.GetAllCommand.Execute(null);
             repository.Verify(a => a.Add(It.IsAny<Key>()), Times.Exactly(allKeys.Count()));
+        }
+
+        [TestMethod]
+        public void CanDeleteCommandTest()
+        {
+            var keyVaultRepository = new Mock<IKeyRepository>();
+            var repository = new Mock<IKeyRepository>();
+            var viewModel = new ManageVaultKeysViewModel(VaultName, repository.Object, keyVaultRepository.Object);
+            Assert.IsFalse(viewModel.DeleteKeyCommand.CanExecute(null));
+            viewModel.SetSelectedKey(new Mock<Key>().Object);
+            Assert.IsTrue(viewModel.DeleteKeyCommand.CanExecute(null));
+        }
+
+        [TestMethod]
+        public void DeleteCommandTest()
+        {
+            var keyVaultRepository = new Mock<IKeyRepository>();
+            var repository = new Mock<IKeyRepository>();
+            var viewModel = new ManageVaultKeysViewModel(VaultName, repository.Object, keyVaultRepository.Object);
+            viewModel.KeysModified += (sender, args) => Assert.IsNotNull(sender);
+            var key = new Mock<Key>().Object;
+            viewModel.SetSelectedKey(key);
+            viewModel.DeleteKeyCommand.Execute(null);
+            keyVaultRepository.Verify(a => a.Delete(key));
+            repository.Verify(a => a.Delete(key));
         }
     }
 }

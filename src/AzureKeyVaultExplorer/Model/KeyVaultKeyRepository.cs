@@ -44,14 +44,19 @@
             throw new NotImplementedException();
         }
 
-        public Task<bool> Add(Key key)
+        public async Task<bool> Add(Key key)
         {
-            throw new NotImplementedException();
+            await this.keyVaultClient.CreateKeyAsync(
+               this.keyVaultConfiguration.AzureKeyVaultUrl,
+               key.Name,
+               key.KeyBundle.Key.Kty);
+            return true;
         }
 
-        public Task<bool> Delete(Key key)
+        public async Task<bool> Delete(Key key)
         {
-            throw new NotImplementedException();
+            await this.keyVaultClient.DeleteKeyAsync(this.keyVaultConfiguration.AzureKeyVaultUrl, key.Name);
+            return true;
         }
 
         private Key MapVaultKeyToLocalKey(KeyItem vaultKey)
