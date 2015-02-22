@@ -83,8 +83,10 @@
     <Compile Include="KeyTests.cs" />
     <Compile Include="KeyVaultConfigurationRepositoryTests.cs" />
     <Compile Include="KeyVaultConfigurationTests.cs" />
+    <Compile Include="KeyVaultKeyRepositoryTests.cs" />
     <Compile Include="ManageKeyVaultAccountViewModelTests.cs" />
     <Compile Include="ManageLocalKeysViewModelTests.cs" />
+    <Compile Include="ManageVaultKeysViewModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

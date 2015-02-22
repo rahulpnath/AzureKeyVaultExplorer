@@ -1,58 +1,63 @@
 ﻿namespace AzureKeyVaultExplorer.ViewModel
 {
     using System;
-    using System.Text.RegularExpressions;
-
     using AzureKeyVaultExplorer.Interface;
     using AzureKeyVaultExplorer.Model;
-
     using GalaSoft.MvvmLight;
     using GalaSoft.MvvmLight.Command;
 
     public class AddKeyViewModel : ViewModelBase
     {
-        private const string KeyIdentifierFormat = @"https://([www]?)(?<vaultname>[a-zA-Z0-9-]{3,24}).vault.azure.net/keys/(?<keyname>[a-zA-Z0-9-]{1,63})[/]?(?<keyversion>[^/]*)[/]?";
-
         private readonly IKeyRepository keyRepository;
 
         private readonly string currentKeyVault;
 
-        private readonly Regex keyMatcher;
-
-        private readonly Key key;
-
-        private string keyIdentifier;
+        private string keyVersion;
 
         private string keyName;
 
-        private string keyVersion;
-
-        private string keyVault;
-
-        public AddKeyViewModel(IKeyRepository keyRepository, string currentKeyVault, Key key)
+        public AddKeyViewModel(IKeyRepository keyRepository, string currentKeyVault)
         {
             this.keyRepository = keyRepository;
             this.currentKeyVault = currentKeyVault;
             this.AddKeyCommand = new RelayCommand(this.OnAddKeyCommand, this.CanAddKeyCommand);
             this.CancelAddKeyCommand = new RelayCommand(this.OnCancelAddKeyCommand);
-            this.keyMatcher = new Regex(KeyIdentifierFormat, RegexOptions.Compiled);
-            this.key = key;
-            this.KeyIdentifier = key.KeyIdentifier;
         }
+
+        public delegate void OnKeyAdded(object sender, KeyAddedEventArgs args);
 
         public event EventHandler RequestClose;
 
-        public string KeyIdentifier
+        public event OnKeyAdded KeyAdded;
+
+        public string HeaderText { get; set; }
+
+        public string KeyName
         {
             get
             {
-                return this.keyIdentifier;
+                return this.keyName;
             }
 
             set
             {
-                this.keyIdentifier = value;
-                this.RaisePropertyChanged(() => this.KeyIdentifier);
+                this.keyName = value;
+                this.RaisePropertyChanged(() => this.KeyName);
+                this.AddKeyCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        public string KeyVersion
+        {
+            get
+            {
+                return this.keyVersion;
+            }
+
+            set
+            {
+                this.keyVersion = value;
+                this.RaisePropertyChanged(() => this.KeyVersion);
                 this.AddKeyCommand.RaiseCanExecuteChanged();
             }
         }
@@ -63,29 +68,7 @@
 
         private bool CanAddKeyCommand()
         {
-            var isEmpty = string.IsNullOrWhiteSpace(this.KeyIdentifier);
-            var isValidFormat = this.CheckIfKeyIdntifierMatchesFormat();
-            var isForCurrentVault = this.currentKeyVault.Equals(this.keyVault, StringComparison.CurrentCultureIgnoreCase);
-
-            return !isEmpty && isValidFormat && isForCurrentVault;
-        }
-
-        private bool CheckIfKeyIdntifierMatchesFormat()
-        {
-            if (string.IsNullOrWhiteSpace(this.keyIdentifier))
-            {
-                return false;
-            }
-
-            var matches = this.keyMatcher.Match(this.KeyIdentifier);
-            if (matches.Success)
-            {
-                this.keyName = matches.Groups["keyname"].Value;
-                this.keyVersion = matches.Groups["keyversion"].Value;
-                this.keyVault = matches.Groups["vaultname"].Value;
-            }
-
-            return matches.Success;
+            return !string.IsNullOrWhiteSpace(this.KeyName);
         }
 
         private void OnCancelAddKeyCommand()
@@ -101,12 +84,18 @@
             }
         }
 
-        private async void OnAddKeyCommand()
+        private void RaiseKeyAdded(Key key)
         {
-            this.key.IsLocal = true;
-            this.key.Name = this.keyName;
-            this.key.KeyIdentifier = this.keyIdentifier;
-            await this.keyRepository.Add(this.key);
+            if (this.KeyAdded != null)
+            {
+                this.KeyAdded(this, new KeyAddedEventArgs(key));
+            }
+        }
+
+        private void OnAddKeyCommand()
+        {
+            var key = new Key(this.currentKeyVault, this.KeyName, this.KeyVersion);
+            this.RaiseKeyAdded(key);
             this.RaiseRequestClose();
         }
     }

@@ -27,20 +27,17 @@
             }
 
             this.allKeys = new List<Key>();
+        }
+
+        public Task<IEnumerable<Key>> GetAll()
+        {
             this.GetAllKeysFromStorage();
+            return Task.FromResult(this.allKeys.AsEnumerable());
         }
 
-        public IEnumerable<Key> All
+        public Task<Key> Get(string keyIdentifier)
         {
-            get
-            {
-                return this.allKeys;
-            }
-        }
-
-        public Key Get(string keyIdentifier)
-        {
-            return this.All.FirstOrDefault(k => k.KeyIdentifier.Equals(keyIdentifier));
+            return Task.FromResult(this.allKeys.FirstOrDefault(k => k.KeyIdentifier.Equals(keyIdentifier)));
         }
 
         public async Task<bool> Add(Key key)
@@ -52,12 +49,12 @@
             return true;
         }
 
-        public bool Delete(Key key)
+        public Task<bool> Delete(Key key)
         {
             var keyFilePath = Path.Combine(this.keyPath, string.Format(KeyFileFormat, key.Name));
             File.Delete(keyFilePath);
             this.allKeys.Remove(key);
-            return true;
+            return Task.FromResult(true);
         }
 
         private static async Task<bool> WriteKeyToFile(string filePath, string writeToFile)

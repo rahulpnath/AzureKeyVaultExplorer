@@ -6,12 +6,12 @@
 
     public interface IKeyRepository
     {
-        IEnumerable<Key> All { get; }
+        Task<IEnumerable<Key>> GetAll();
 
-        Key Get(string name);
+        Task<Key> Get(string name);
 
         Task<bool> Add(Key key);
 
-        bool Delete(Key key);
+        Task<bool> Delete(Key key);
     }
 }

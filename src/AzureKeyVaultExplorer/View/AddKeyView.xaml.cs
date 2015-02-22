@@ -1,5 +1,6 @@
 ﻿namespace AzureKeyVaultExplorer.View
 {
+    using System.Windows;
     using System.Windows.Controls;
 
     /// <summary>

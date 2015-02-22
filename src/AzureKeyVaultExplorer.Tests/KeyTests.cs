@@ -42,27 +42,54 @@
             var key = GetTestKey();
 
             Assert.IsNotNull(key.ToString());
-            Assert.IsTrue(key.ToString().Equals(key.KeyBundle.Key.Kid));
+            Assert.IsTrue(key.ToString().Equals(key.KeyIdentifier));
+        }
+
+        [TestMethod]
+        public void CanAddKeyCommandUrlWithNoTrailingSlashAndNoVersionNumberTest()
+        {
+            var key = new Key("https://test.vault.azure.net/keys/TestKey");
+            Assert.AreEqual(key.Name, "TestKey");
+            Assert.IsNull(key.Version);
+            Assert.AreEqual(key.VaultName, "test");
+        }
+
+        [TestMethod]
+        public void CanAddKeyCommandUrlWithTrailingSlashAndNoVersionNumberTest()
+        {
+            var key = new Key("https://test.vault.azure.net/keys/TestKey/");
+            Assert.AreEqual(key.Name, "TestKey");
+            Assert.IsNull(key.Version);
+            Assert.AreEqual(key.VaultName, "test");
+        }
+
+        [TestMethod]
+        public void CanAddKeyCommandUrlWithNoTrailingSlashAndVersionNumberTest()
+        {
+            var key = new Key("https://test.vault.azure.net/keys/TestKey/0f653b06c1d94159bc7090596bbf7784");
+            Assert.AreEqual(key.Name, "TestKey");
+            Assert.AreEqual(key.Version, "0f653b06c1d94159bc7090596bbf7784");
+            Assert.AreEqual(key.VaultName, "test");
+        }
+
+        [TestMethod]
+        public void CanAddKeyCommandUrlWithTrailingSlashAndVersionNumberTest()
+        {
+            var key = new Key("https://test.vault.azure.net/keys/TestKey/0f653b06c1d94159bc7090596bbf7784/");
+            Assert.AreEqual(key.Name, "TestKey");
+            Assert.AreEqual(key.Version, "0f653b06c1d94159bc7090596bbf7784");
+            Assert.AreEqual(key.VaultName, "test");
+            
         }
 
         private static Key GetTestKey()
         {
-            var keyBundle = new KeyBundle();
-            keyBundle.Key = new JsonWebKey();
-            keyBundle.Key.Kid = "https://test.vault.azure.net/keys/TestKey";
-            
-            var key = new Key(keyBundle, true);
-            key.KeyIdentifier = "https://test.vault.azure.net/keys/TestKey";
-            return key;
+            return new Key("https://test.vault.azure.net/keys/TestKey");
         }
 
         private static Key GetAnotherTestKey()
         {
-            var keyBundle = new KeyBundle();
-            keyBundle.Key = new JsonWebKey();
-            keyBundle.Key.Kid = "https://test.vault.azure.net/keys/AnotherTestKey";
-            var key = new Key(keyBundle, true);
-            return key;
+            return new Key("https://test.vault.azure.net/keys/AnotherTestKey");
         }
     }
 }
