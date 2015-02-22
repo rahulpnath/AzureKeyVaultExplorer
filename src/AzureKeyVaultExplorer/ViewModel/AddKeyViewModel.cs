@@ -1,11 +1,8 @@
 ﻿namespace AzureKeyVaultExplorer.ViewModel
 {
     using System;
-    using System.Text.RegularExpressions;
-
     using AzureKeyVaultExplorer.Interface;
     using AzureKeyVaultExplorer.Model;
-
     using GalaSoft.MvvmLight;
     using GalaSoft.MvvmLight.Command;
 
@@ -27,7 +24,13 @@
             this.CancelAddKeyCommand = new RelayCommand(this.OnCancelAddKeyCommand);
         }
 
+        public delegate void OnKeyAdded(object sender, KeyAddedEventArgs args);
+
         public event EventHandler RequestClose;
+
+        public event OnKeyAdded KeyAdded;
+
+        public string HeaderText { get; set; }
 
         public string KeyName
         {
@@ -81,10 +84,18 @@
             }
         }
 
-        private async void OnAddKeyCommand()
+        private void RaiseKeyAdded(Key key)
+        {
+            if (this.KeyAdded != null)
+            {
+                this.KeyAdded(this, new KeyAddedEventArgs(key));
+            }
+        }
+
+        private void OnAddKeyCommand()
         {
             var key = new Key(this.currentKeyVault, this.KeyName, this.KeyVersion);
-            await this.keyRepository.Add(key);
+            this.RaiseKeyAdded(key);
             this.RaiseRequestClose();
         }
     }

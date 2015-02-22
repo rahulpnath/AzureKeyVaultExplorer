@@ -95,8 +95,8 @@
             var viewModel = new AddKeyViewModel(keyRepository.Object, KeyVaultName);
             viewModel.KeyName = "TestKey";
             viewModel.RequestClose += (sender, args) => Assert.AreEqual(sender, viewModel);
+            viewModel.KeyAdded += (sender, args) => Assert.AreEqual(args.Key.Name, "TestKey");
             viewModel.AddKeyCommand.Execute(null);
-            keyRepository.Verify(a => a.Add(It.IsAny<Key>()), Times.Once);
         }
 
         [TestMethod]

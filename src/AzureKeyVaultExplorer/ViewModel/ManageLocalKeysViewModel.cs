@@ -67,13 +67,20 @@
         {
             this.AddKeyViewModel = new AddKeyViewModel(this.keyRepository, this.vaultName);
             this.AddKeyViewModel.RequestClose += this.HandleRequestCloseForAddKeyModel;
+            this.AddKeyViewModel.KeyAdded += this.HandleKeyAdded;
+        }
+
+        private async void HandleKeyAdded(object sender, KeyAddedEventArgs args)
+        {
+            await this.keyRepository.Add(args.Key);
+            this.RaiseKeysModified();
         }
 
         private void HandleRequestCloseForAddKeyModel(object sender, System.EventArgs e)
         {
             this.AddKeyViewModel.RequestClose -= this.HandleRequestCloseForAddKeyModel;
+            this.AddKeyViewModel.KeyAdded -= this.HandleKeyAdded;
             this.AddKeyViewModel = null;
-            this.RaiseKeysModified();
         }
 
         private void RaiseKeysModified()

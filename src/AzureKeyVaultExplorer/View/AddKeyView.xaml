@@ -41,7 +41,7 @@
             </Border.Background>
 
             <StackPanel Margin="10">
-                <TextBlock FontSize="18" TextAlignment="Center" Text="Add Local Key" />
+                <TextBlock FontSize="18" TextAlignment="Center" Text="Add Key" />
                 <TextBlock  Text="Key Name:" Style="{StaticResource HeaderText}" />
                 <TextBox Text="{Binding KeyName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock  Text="Key Version:" Style="{StaticResource HeaderText}" />
