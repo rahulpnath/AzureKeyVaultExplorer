@@ -156,5 +156,22 @@
 
             keyVaultConfigurationRepository.Verify(a => a.InsertOrUpdate(mockKeyVaultConfiguration), Times.Once);
         }
+
+        [TestMethod]
+        public void CancelAddKeyVaultAccountTest()
+        {
+            var mockKeyVaultConfiguration = MockKeyVaultConfiguration;
+            var keyVaultConfigurationRepository = new Mock<IKeyVaultConfigurationRepository>();
+
+            var addKeyVaultAccountViewModel =
+                new AddKeyVaultAccountViewModel(
+                    keyVaultConfigurationRepository.Object,
+                    mockKeyVaultConfiguration);
+            addKeyVaultAccountViewModel.RequestClose += (sender, e) => Assert.IsNotNull(sender);
+
+            addKeyVaultAccountViewModel.CancelAddKeyVaultAccountCommand.Execute(null);
+
+            keyVaultConfigurationRepository.Verify(a => a.InsertOrUpdate(mockKeyVaultConfiguration), Times.Never);
+        }
     }
 }
