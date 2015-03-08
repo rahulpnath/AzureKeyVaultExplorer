@@ -7,6 +7,7 @@
     using AzureKeyVaultExplorer.Model;
     using GalaSoft.MvvmLight;
     using GalaSoft.MvvmLight.Command;
+    using System.Windows;
 
     public class KeyCryptographicOperationsViewModel : ViewModelBase
     {
@@ -25,8 +26,9 @@
             this.EncryptedString = this.SelectedDataConverter.DisplayMessage;
             this.EncryptCommand = new RelayCommand(this.OnEncryptCommand, this.CanExecuteCommand);
             this.DecryptCommand = new RelayCommand(this.OnDecryptCommand, this.CanExecuteCommand);
+            this.CopyToClipboardCommand = new RelayCommand(this.OnCopyToClipboardCommand);
         }
-
+             
         public IDataConverter SelectedDataConverter { get; set; }
 
         public string InputString
@@ -64,10 +66,17 @@
 
         public RelayCommand DecryptCommand { get; set; }
 
+        public RelayCommand CopyToClipboardCommand { get; set;}
+
         private async void OnEncryptCommand()
         {
             this.EncryptedString = null;
             this.EncryptedString = await this.keyOperations.Encrypt(this.CurrentKey, this.inputString, this.SelectedDataConverter);
+        }
+
+        private void OnCopyToClipboardCommand()
+        {
+            Clipboard.SetText(this.EncryptedString, TextDataFormat.Text);
         }
 
         private bool CanExecuteCommand()

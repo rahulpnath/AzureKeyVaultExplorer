@@ -11,8 +11,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBox Margin="5" 
-                 MinHeight="200" 
+        <TextBox Margin="5,5,35,0" 
+                 Height="100" 
                  Text="{Binding InputString, UpdateSourceTrigger=PropertyChanged}" 
                  TextWrapping="Wrap" />
 
@@ -20,12 +20,15 @@
             <Button Content="Encrypt" Command="{Binding EncryptCommand}" />
             <Button Content="Decrypt" Command="{Binding DecryptCommand}" />
         </StackPanel>
-
-        <TextBox Margin="5"  
-                 MinHeight="200" 
+        <DockPanel LastChildFill="True"  Grid.Row="2">
+            <Button Command="{Binding CopyToClipboardCommand}" VerticalAlignment="Bottom" DockPanel.Dock="Right" Margin="0,0,0,5">
+                <Image Width="25" Stretch="Fill" Source="/Resources/copy.png" />
+            </Button>
+            <TextBox Margin="5"  
+                 Height="100" 
                  IsReadOnly="True" 
                  Text="{Binding EncryptedString}" 
-                 Grid.Row="2" 
                  TextWrapping="Wrap" />
+        </DockPanel>
     </Grid>
 </UserControl>

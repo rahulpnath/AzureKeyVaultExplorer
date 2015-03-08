@@ -58,6 +58,7 @@
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.0.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -79,6 +80,7 @@
     <Compile Include="AddKeyVaultAccountViewModelTests.cs" />
     <Compile Include="AddKeyViewModelTests.cs" />
     <Compile Include="Base64DataConverterTests.cs" />
+    <Compile Include="KeyCryptographicOperationsViewModelTests.cs" />
     <Compile Include="KeyRepositoryTests.cs" />
     <Compile Include="KeyTests.cs" />
     <Compile Include="KeyVaultConfigurationRepositoryTests.cs" />
