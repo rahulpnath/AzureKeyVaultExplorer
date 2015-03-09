@@ -40,7 +40,7 @@
                 new AddKeyVaultAccountViewModel(
                     new Mock<IKeyVaultConfigurationRepository>().Object,
                     mockKeyVaultConfiguration);
-
+            Assert.IsInstanceOfType(addKeyVaultAccountViewModel, typeof(ValidatableViewModelBase));
             Assert.AreEqual(addKeyVaultAccountViewModel.ADApplicationId, mockKeyVaultConfiguration.ADApplicationClientId);
             Assert.AreEqual(addKeyVaultAccountViewModel.KeyVaultUrl, mockKeyVaultConfiguration.AzureKeyVaultUrl);
             Assert.AreEqual(addKeyVaultAccountViewModel.ADApplicationSecret, mockKeyVaultConfiguration.ADApplicationSecret);
@@ -78,7 +78,7 @@
 
             Assert.IsFalse(canExecute);
 
-            addKeyVaultAccountViewModel.KeyVaultUrl = @"https://.test.vault.azure.net/";
+            addKeyVaultAccountViewModel.KeyVaultUrl = @"https://test.vault.azure.net/";
 
             canExecute = addKeyVaultAccountViewModel.AddKeyVaultAccountCommand.CanExecute(null);
 
@@ -102,6 +102,19 @@
         {
             var mockKeyVaultConfiguration = MockKeyVaultConfiguration;
             mockKeyVaultConfiguration.AzureKeyVaultUrl = @"https://www.test.vault.azure.net/";
+            var addKeyVaultAccountViewModel =
+                new AddKeyVaultAccountViewModel(
+                    new Mock<IKeyVaultConfigurationRepository>().Object,
+                    mockKeyVaultConfiguration);
+            var canExecute = addKeyVaultAccountViewModel.AddKeyVaultAccountCommand.CanExecute(null);
+            Assert.IsTrue(canExecute);
+        }
+
+        [TestMethod]
+        public void CanAddKeyVaultCommandForValidConfigrationWithoutWwwInUrlTest()
+        {
+            var mockKeyVaultConfiguration = MockKeyVaultConfiguration;
+            mockKeyVaultConfiguration.AzureKeyVaultUrl = @"https://test.vault.azure.net/";
             var addKeyVaultAccountViewModel =
                 new AddKeyVaultAccountViewModel(
                     new Mock<IKeyVaultConfigurationRepository>().Object,

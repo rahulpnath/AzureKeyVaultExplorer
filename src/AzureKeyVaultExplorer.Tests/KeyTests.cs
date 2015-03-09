@@ -79,7 +79,6 @@
             Assert.AreEqual(key.Name, "TestKey");
             Assert.AreEqual(key.Version, "0f653b06c1d94159bc7090596bbf7784");
             Assert.AreEqual(key.VaultName, "test");
-            
         }
 
         private static Key GetTestKey()

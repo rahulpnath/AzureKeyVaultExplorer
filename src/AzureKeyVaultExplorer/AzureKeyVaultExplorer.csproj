@@ -94,6 +94,9 @@
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="MvvmValidation">
+      <HintPath>..\packages\MvvmValidation.2.0.2\lib\net40-client\MvvmValidation.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -144,6 +147,7 @@
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ManageLocalKeysViewModel.cs" />
     <Compile Include="ViewModel\ManageVaultKeysViewModel.cs" />
+    <Compile Include="ViewModel\ValidatableViewModelBase.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\AddKeyValultAccountView.xaml.cs">
       <DependentUpon>AddKeyValultAccountView.xaml</DependentUpon>

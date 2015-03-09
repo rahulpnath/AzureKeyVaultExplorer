@@ -1,13 +1,12 @@
 ﻿namespace AzureKeyVaultExplorer.ViewModel
 {
     using System;
+    using System.Windows;
     using System.Windows.Media.TextFormatting;
-
     using AzureKeyVaultExplorer.Interface;
     using AzureKeyVaultExplorer.Model;
     using GalaSoft.MvvmLight;
     using GalaSoft.MvvmLight.Command;
-    using System.Windows;
 
     public class KeyCryptographicOperationsViewModel : ViewModelBase
     {
@@ -28,7 +27,7 @@
             this.DecryptCommand = new RelayCommand(this.OnDecryptCommand, this.CanExecuteCommand);
             this.CopyToClipboardCommand = new RelayCommand(this.OnCopyToClipboardCommand);
         }
-             
+
         public IDataConverter SelectedDataConverter { get; set; }
 
         public string InputString
@@ -66,7 +65,7 @@
 
         public RelayCommand DecryptCommand { get; set; }
 
-        public RelayCommand CopyToClipboardCommand { get; set;}
+        public RelayCommand CopyToClipboardCommand { get; set; }
 
         private async void OnEncryptCommand()
         {

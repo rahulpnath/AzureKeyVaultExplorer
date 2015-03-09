@@ -43,11 +43,11 @@
             <StackPanel Margin="10">
                 <TextBlock FontSize="18" TextAlignment="Center" Text="Add Azure Key Vault Account" />
                 <TextBlock  Text="Azure Key Vault Url:" Style="{StaticResource HeaderText}" />
-                <TextBox Text="{Binding KeyVaultUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Text="{Binding KeyVaultUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
                 <TextBlock  Text="AD Application Id:" Style="{StaticResource HeaderText}"  />
-                <TextBox Text="{Binding ADApplicationId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Text="{Binding ADApplicationId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
                 <TextBlock Text="AD Application Secret:" Style="{StaticResource HeaderText}"  />
-                <TextBox Text="{Binding ADApplicationSecret, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Text="{Binding ADApplicationSecret, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
                     <Button Content="Add" Command="{Binding AddKeyVaultAccountCommand}" />
                     <Button Margin="5,0,0,0" Content="Cancel" Command="{Binding CancelAddKeyVaultAccountCommand}"  />

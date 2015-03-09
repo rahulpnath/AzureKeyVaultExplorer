@@ -1,17 +1,17 @@
-﻿using AzureKeyVaultExplorer.Interface;
-using AzureKeyVaultExplorer.Model;
-using AzureKeyVaultExplorer.ViewModel;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-
-namespace AzureKeyVaultExplorer.Tests
+﻿namespace AzureKeyVaultExplorer.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Windows;
+    using AzureKeyVaultExplorer.Interface;
+    using AzureKeyVaultExplorer.Model;
+    using AzureKeyVaultExplorer.ViewModel;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Moq;
+
     [TestClass]
     public class KeyCryptographicOperationsViewModelTests
     {

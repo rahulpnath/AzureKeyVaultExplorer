@@ -72,6 +72,5 @@
             var authenticationContext = new AuthenticationContext(authority, null);
             return authenticationContext.AcquireToken(resource, adCredential).AccessToken;
         }
-
     }
 }
