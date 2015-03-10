@@ -88,6 +88,20 @@
         }
 
         [TestMethod]
+        public void CanExecuteAddKeyCommandWithInvalidKeyFormat()
+        {
+            this.Initialize();
+            var keyRepository = new Mock<IKeyRepository>();
+
+            var viewModel = new AddKeyViewModel(keyRepository.Object, KeyVaultName);
+            Assert.IsFalse(viewModel.AddKeyCommand.CanExecute(null));
+            Assert.IsTrue(viewModel.CancelAddKeyCommand.CanExecute(null));
+
+            viewModel.KeyName = "testvault#t";
+            Assert.IsFalse(viewModel.AddKeyCommand.CanExecute(null));
+        }
+
+        [TestMethod]
         public void AddKeyCommandExecuteTest()
         {
             this.Initialize();
