@@ -1,14 +1,22 @@
 ﻿namespace AzureKeyVaultExplorer.ViewModel
 {
     using System;
+    using System.Text.RegularExpressions;
+
     using AzureKeyVaultExplorer.Interface;
     using AzureKeyVaultExplorer.Model;
     using GalaSoft.MvvmLight;
     using GalaSoft.MvvmLight.Command;
 
-    public class AddKeyViewModel : ViewModelBase
+    using MvvmValidation;
+
+    public class AddKeyViewModel : ValidatableViewModelBase
     {
+        private const string KeyFormat = "^[a-zA-Z0-9-]{1,63}$";
+
         private readonly IKeyRepository keyRepository;
+
+        private readonly Regex keyMatcher;
 
         private readonly string currentKeyVault;
 
@@ -22,6 +30,8 @@
             this.currentKeyVault = currentKeyVault;
             this.AddKeyCommand = new RelayCommand(this.OnAddKeyCommand, this.CanAddKeyCommand);
             this.CancelAddKeyCommand = new RelayCommand(this.OnCancelAddKeyCommand);
+            this.keyMatcher = new Regex(KeyFormat, RegexOptions.Compiled);
+            this.Initialize();
         }
 
         public delegate void OnKeyAdded(object sender, KeyAddedEventArgs args);
@@ -68,7 +78,18 @@
 
         private bool CanAddKeyCommand()
         {
-            return !string.IsNullOrWhiteSpace(this.KeyName);
+            return this.Validator.ValidateAll().IsValid;
+        }
+
+        private void Initialize()
+        {
+            this.Validator.AddRule(() => this.KeyName, () => RuleResult.Assert(!string.IsNullOrWhiteSpace(this.KeyName), "Key Name is required"));
+            this.Validator.AddRule(
+                () => this.KeyName,
+                () =>
+                    RuleResult.Assert(
+                        this.keyMatcher.Match(this.KeyName).Success,
+                        "Key name should have minimum 1 and a maximum of 63 characters and can contain only alphabhets, numbers and '-'"));
         }
 
         private void OnCancelAddKeyCommand()

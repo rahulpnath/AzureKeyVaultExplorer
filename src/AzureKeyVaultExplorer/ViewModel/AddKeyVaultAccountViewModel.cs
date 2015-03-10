@@ -102,9 +102,9 @@
 
         private void SetupValidationRules()
         {
-            this.Validator.AddRequiredRule(() => this.KeyVaultUrl, "Azure KeyVaultUrl is Required");
-            this.Validator.AddRequiredRule(() => this.ADApplicationId, "AD ApplicationId is Required");
-            this.Validator.AddRequiredRule(() => this.ADApplicationSecret, "AD ApplicationSecret is Required");
+            this.Validator.AddRequiredRule(() => this.KeyVaultUrl, "Azure KeyVaultUrl is required");
+            this.Validator.AddRequiredRule(() => this.ADApplicationId, "AD ApplicationId is required");
+            this.Validator.AddRequiredRule(() => this.ADApplicationSecret, "AD ApplicationSecret is required");
 
             this.Validator.AddRule(() => this.KeyVaultUrl, () => RuleResult.Assert(this.CheckIfVaultUrlMatchesFormat(), @"Key Vault Url does not match format eg. https://www.<vaultname>.vault.azure.net/ "));
             this.Validator.AddRule(() => this.KeyVaultUrl, () => RuleResult.Assert(this.keyVaultConfigurationRepository.Get(this.vaultName) == null, @"Key Vault Url configuration already exists"));
